@@ -1,47 +1,31 @@
 {
-  "name": "aurrin-crowdfunding-dev",
+  "name": "aurrin-crowdfunding",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix"
+    "lint": "next lint"
   },
   "dependencies": {
-    "next": "^15.5.7",
-    "react": "19.1.1",
-    "react-dom": "19.1.1",
+    "next": "^15.5.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "stripe": "^16.0.0",
-    "@heroui/react": "^2.7.5",
-    "@heroui/system": "^2.4.23",
-    "@heroui/theme": "^2.4.22",
-    "@heroui/button": "2.2.26",
-    "@heroui/input": "2.4.27",
-    "@heroui/card": "2.2.23",
-    "@heroui/progress": "2.2.21",
-    "@heroui/spacer": "2.1.20",
-    "@heroui/divider": "2.1.21",
-    "@heroui/chip": "2.2.22",
-    "@heroui/snippet": "2.2.27",
-    "@heroui/badge": "2.2.21",
-    "react-icons": "^5.5.0",
-    "intl-messageformat": "^10.7.16",
-    "next-themes": "^0.4.6",
-    "tailwind-variants": "3.1.1",
-    "tailwindcss": "^4.1.13",
-    "@tailwindcss/postcss": "^4.1.13",
-    "framer-motion": "~12.23.12",
+    "resend": "^6.9.4",
     "clsx": "^2.1.1",
-    "date-fns": "^4.1.0",
-    "resend": "^6.9.4"
+    "tailwind-variants": "^3.1.1",
+    "tailwindcss": "^4.1.0",
+    "@tailwindcss/postcss": "^4.1.0",
+    "framer-motion": "^11.0.0"
   },
   "devDependencies": {
-    "@types/node": "24.3.3",
-    "@types/react": "19.1.13",
-    "@types/react-dom": "19.1.9",
-    "typescript": "5.9.2",
-    "eslint": "^9.35.0",
-    "eslint-config-next": "15.5.3"
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.0.0",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^15.5.0"
   }
 }

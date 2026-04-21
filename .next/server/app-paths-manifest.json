@@ -1,0 +1,10 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/donate/route": "app/api/donate/route.js",
+  "/api/campaigns/route": "app/api/campaigns/route.js",
+  "/campaigns/[id]/page": "app/campaigns/[id]/page.js",
+  "/confirm/[campaignId]/page": "app/confirm/[campaignId]/page.js",
+  "/page": "app/page.js",
+  "/donate/[campaignId]/page": "app/donate/[campaignId]/page.js",
+  "/campaigns/page": "app/campaigns/page.js"
+}
