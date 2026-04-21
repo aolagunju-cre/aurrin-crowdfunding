@@ -1,18 +1,51 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getCampaign } from '@/lib/campaigns';
 
-export async function GET(request: NextRequest) {
-  const campaignId = request.nextUrl.searchParams.get('campaignId');
+const PLATFORM = process.env.NEXT_PUBLIC_PLATFORM_API_URL ?? 'https://aurrin-platform.vercel.app';
 
-  if (!campaignId) {
-    return NextResponse.json({ error: 'campaignId required' }, { status: 400 });
+export async function POST(req: NextRequest) {
+  let body: Record<string, unknown>;
+
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
+  }
+
+  const { title, tagline, story, category, funding_goal_cents, duration_days, pledge_tiers } = body;
+
+  if (!title || !category || !funding_goal_cents) {
+    return NextResponse.json({ error: 'title, category, funding_goal_cents required' }, { status: 400 });
+  }
+
+  if (!pledge_tiers || pledge_tiers.length < 2) {
+    return NextResponse.json({ error: 'At least 2 pledge tiers required' }, { status: 400 });
   }
 
   try {
-    const campaign = await getCampaign(campaignId);
-    if (!campaign) return NextResponse.json({ data: null }, { status: 404 });
-    return NextResponse.json({ data: campaign });
+    const res = await fetch(`${PLATFORM}/api/public/campaigns`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title,
+        tagline: tagline ?? null,
+        description: tagline ?? null,
+        story: story ?? null,
+        category,
+        funding_goal_cents,
+        duration_days: duration_days ?? 30,
+        pledge_tiers,
+        status: 'draft',
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      return NextResponse.json({ error: err.message ?? 'Failed to create campaign' }, { status: res.status });
+    }
+
+    const data = await res.json();
+    return NextResponse.json({ id: data.id, message: 'Campaign created' }, { status: 201 });
   } catch {
-    return NextResponse.json({ error: 'Failed to fetch campaign' }, { status: 500 });
+    return NextResponse.json({ error: 'Could not reach platform API' }, { status: 502 });
   }
 }
