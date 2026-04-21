@@ -15,19 +15,19 @@
       "static/css/27e6c4554ce94418.css",
       "static/chunks/app/layout-f26e4de60bb510b5.js"
     ],
-    "/api/donate/route": [
-      "static/chunks/webpack-e9b38b184aef6a6c.js",
-      "static/chunks/4bd1b696-c023c6e3521b1417.js",
-      "static/chunks/255-4f212684648fcab9.js",
-      "static/chunks/main-app-af591754ae7ba594.js",
-      "static/chunks/app/api/donate/route-a2960adfa7f50f32.js"
-    ],
     "/api/campaigns/route": [
       "static/chunks/webpack-e9b38b184aef6a6c.js",
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
       "static/chunks/255-4f212684648fcab9.js",
       "static/chunks/main-app-af591754ae7ba594.js",
       "static/chunks/app/api/campaigns/route-a2960adfa7f50f32.js"
+    ],
+    "/api/donate/route": [
+      "static/chunks/webpack-e9b38b184aef6a6c.js",
+      "static/chunks/4bd1b696-c023c6e3521b1417.js",
+      "static/chunks/255-4f212684648fcab9.js",
+      "static/chunks/main-app-af591754ae7ba594.js",
+      "static/chunks/app/api/donate/route-a2960adfa7f50f32.js"
     ],
     "/campaigns/[id]/page": [
       "static/chunks/webpack-e9b38b184aef6a6c.js",
@@ -37,6 +37,13 @@
       "static/chunks/619-ba102abea3e3d0e4.js",
       "static/chunks/app/campaigns/[id]/page-39d5ac7892a31640.js"
     ],
+    "/page": [
+      "static/chunks/webpack-e9b38b184aef6a6c.js",
+      "static/chunks/4bd1b696-c023c6e3521b1417.js",
+      "static/chunks/255-4f212684648fcab9.js",
+      "static/chunks/main-app-af591754ae7ba594.js",
+      "static/chunks/app/page-a2960adfa7f50f32.js"
+    ],
     "/confirm/[campaignId]/page": [
       "static/chunks/webpack-e9b38b184aef6a6c.js",
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
@@ -45,13 +52,6 @@
       "static/chunks/619-ba102abea3e3d0e4.js",
       "static/chunks/263-a8042e661b088d07.js",
       "static/chunks/app/confirm/[campaignId]/page-ed0a72f1c9ca22aa.js"
-    ],
-    "/page": [
-      "static/chunks/webpack-e9b38b184aef6a6c.js",
-      "static/chunks/4bd1b696-c023c6e3521b1417.js",
-      "static/chunks/255-4f212684648fcab9.js",
-      "static/chunks/main-app-af591754ae7ba594.js",
-      "static/chunks/app/page-a2960adfa7f50f32.js"
     ],
     "/donate/[campaignId]/page": [
       "static/chunks/webpack-e9b38b184aef6a6c.js",

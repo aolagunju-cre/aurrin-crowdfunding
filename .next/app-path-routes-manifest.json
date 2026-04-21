@@ -1,10 +1,10 @@
 {
   "/_not-found/page": "/_not-found",
-  "/api/donate/route": "/api/donate",
   "/api/campaigns/route": "/api/campaigns",
+  "/api/donate/route": "/api/donate",
   "/campaigns/[id]/page": "/campaigns/[id]",
-  "/confirm/[campaignId]/page": "/confirm/[campaignId]",
   "/page": "/",
+  "/confirm/[campaignId]/page": "/confirm/[campaignId]",
   "/donate/[campaignId]/page": "/donate/[campaignId]",
   "/campaigns/page": "/campaigns"
 }
