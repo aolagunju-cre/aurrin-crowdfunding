@@ -1,0 +1,11 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "env": {
+    "NEXT_PUBLIC_PLATFORM_API_URL": "https://aurrin-platform.vercel.app",
+    "STRIPE_SECRET_KEY": "sk_test_placeholder",
+    "STRIPE_WEBHOOK_SECRET": "whsec_placeholder",
+    "RESEND_API_KEY": "re_placeholder"
+  }
+}
