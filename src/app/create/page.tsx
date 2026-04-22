@@ -53,11 +53,11 @@ export default function CreatePage() {
         <div className="max-w-xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#4831B0] to-[#2EE5F2] flex items-center justify-center">
-              <span className="font-montserrat font-bold text-xs text-white">A</span>
+              <span className="font-bold text-xs text-white">A</span>
             </div>
-            <span className="font-montserrat font-bold text-sm tracking-widest text-[#F1F3F2]">CROWDFUNDING</span>
+            <span className="font-bold text-sm tracking-widest">CROWDFUNDING</span>
           </div>
-          <span className="text-sm text-white/40 font-medium">
+          <span className="text-sm text-white/40">
             Step {step + 1} of {STEPS.length}
           </span>
         </div>
@@ -66,29 +66,29 @@ export default function CreatePage() {
       {/* Step indicator */}
       <div className="border-b border-white/10 px-6 py-5">
         <div className="max-w-xl mx-auto">
-          <div className="flex items-center gap-0">
+          <div className="flex items-center">
             {STEPS.map((s, i) => (
               <button
                 key={s.id}
                 onClick={() => i < step && setStep(i)}
-                className={`flex items-center gap-2 text-sm font-medium transition-colors ${
-                  i === step ? 'text-white' : i < step ? 'text-[#2EE5F2] cursor-pointer hover:opacity-80' : 'text-white/30'
+                className={`flex items-center text-sm font-medium ${
+                  i === step ? 'text-white' : i < step ? 'text-teal-400 cursor-pointer' : 'text-white/30'
                 }`}
               >
                 <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-colors ${
+                  className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 ${
                     i === step
-                      ? 'border-[#2EE5F2] bg-[#2EE5F2]/10 text-[#2EE5F2]'
+                      ? 'border-teal-400 bg-teal-400/10 text-teal-400'
                       : i < step
-                      ? 'border-[#2EE5F2] bg-[#2EE5F2] text-[#0D1B2E]'
+                      ? 'border-teal-400 bg-teal-400 text-slate-900'
                       : 'border-white/20 text-white/30'
                   }`}
                 >
                   {i < step ? '✓' : s.icon}
                 </div>
-                <span className="hidden sm:inline text-sm">{s.label}</span>
+                <span className="ml-2 hidden sm:inline text-sm">{s.label}</span>
                 {i < STEPS.length - 1 && (
-                  <div className={`w-8 sm:w-16 h-px mx-2 ${i < step ? 'bg-[#2EE5F2]' : 'bg-white/10'}`} />
+                  <div className={`w-8 sm:w-16 h-px mx-2 ${i < step ? 'bg-teal-400' : 'bg-white/10'}`} />
                 )}
               </button>
             ))}
@@ -147,26 +147,26 @@ function GoalStep({
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-3xl font-montserrat font-bold mb-2">What are you building?</h2>
-        <p className="text-white/50">Name your campaign and pick a category.</p>
+        <h2 className="text-3xl font-bold mb-2">What are you building?</h2>
+        <p className="text-gray-400">Name your campaign and pick a category.</p>
       </div>
 
       {/* Campaign name */}
       <div>
-        <label className="block text-sm font-medium text-white/70 mb-2">Campaign Name</label>
+        <label className="block text-sm font-medium text-gray-300 mb-2">Campaign Name</label>
         <input
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="e.g. Bear Valley Rescue Equipment"
           maxLength={80}
-          className="w-full rounded-xl border border-white/20 bg-white/5 px-4 py-3.5 text-white placeholder:text-white/30 outline-none focus:border-[#2EE5F2] focus:bg-white/10 transition-all text-base"
+          className="w-full rounded-xl border border-white/20 bg-white/5 px-4 py-3.5 text-white placeholder-gray-500 outline-none focus:border-teal-400 focus:bg-white/10 transition-all text-base"
         />
       </div>
 
       {/* Category */}
       <div>
-        <label className="block text-sm font-medium text-white/70 mb-3">Category</label>
+        <label className="block text-sm font-medium text-gray-300 mb-3">Category</label>
         <div className="flex flex-wrap gap-2">
           {CATEGORIES.map((cat) => (
             <button
@@ -174,8 +174,8 @@ function GoalStep({
               onClick={() => setCategory(cat)}
               className={`px-4 py-2 rounded-full text-sm font-medium border transition-all ${
                 category === cat
-                  ? 'border-[#2EE5F2] bg-[#2EE5F2]/15 text-[#2EE5F2]'
-                  : 'border-white/15 text-white/50 hover:border-white/30 hover:text-white/70'
+                  ? 'border-teal-400 bg-teal-400/15 text-teal-400'
+                  : 'border-white/15 text-gray-400 hover:border-white/30 hover:text-gray-200'
               }`}
             >
               {cat}
@@ -187,25 +187,25 @@ function GoalStep({
       {/* Goal + Duration */}
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-white/70 mb-2">Funding Goal (CAD)</label>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Funding Goal (CAD)</label>
           <input
             type="number"
             value={goalDollars}
             onChange={(e) => setGoalDollars(Number(e.target.value))}
             min={100}
             max={1000000}
-            className="w-full rounded-xl border border-white/20 bg-white/5 px-4 py-3.5 text-white outline-none focus:border-[#2EE5F2] focus:bg-white/10 transition-all"
+            className="w-full rounded-xl border border-white/20 bg-white/5 px-4 py-3.5 text-white outline-none focus:border-teal-400 focus:bg-white/10 transition-all"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-white/70 mb-2">Duration (days)</label>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Duration (days)</label>
           <input
             type="number"
             value={duration}
             onChange={(e) => setDuration(Number(e.target.value))}
             min={7}
             max={90}
-            className="w-full rounded-xl border border-white/20 bg-white/5 px-4 py-3.5 text-white outline-none focus:border-[#2EE5F2] focus:bg-white/10 transition-all"
+            className="w-full rounded-xl border border-white/20 bg-white/5 px-4 py-3.5 text-white outline-none focus:border-teal-400 focus:bg-white/10 transition-all"
           />
         </div>
       </div>
@@ -213,7 +213,7 @@ function GoalStep({
       <button
         onClick={handleNext}
         disabled={!title.trim() || !category}
-        className="w-full bg-white text-[#0D1B2E] font-bold text-lg rounded-full py-4 hover:bg-[#2EE5F2] disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+        className="w-full bg-white text-slate-900 font-bold text-lg rounded-full py-4 hover:bg-teal-400 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
       >
         Next: Your Story →
       </button>
@@ -247,47 +247,47 @@ function StoryStep({
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-3xl font-montserrat font-bold mb-2">Tell your story.</h2>
-        <p className="text-white/50">Why are you raising? Where will every dollar go?</p>
+        <h2 className="text-3xl font-bold mb-2">Tell your story.</h2>
+        <p className="text-gray-400">Why are you raising? Where will every dollar go?</p>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-white/70 mb-2">One-line pitch</label>
+        <label className="block text-sm font-medium text-gray-300 mb-2">One-line pitch</label>
         <input
           type="text"
           value={tagline}
           onChange={(e) => setTagline(e.target.value)}
           placeholder="e.g. Equipment to rescue animals in northern Alberta"
           maxLength={120}
-          className="w-full rounded-xl border border-white/20 bg-white/5 px-4 py-3.5 text-white placeholder:text-white/30 outline-none focus:border-[#2EE5F2] focus:bg-white/10 transition-all"
+          className="w-full rounded-xl border border-white/20 bg-white/5 px-4 py-3.5 text-white placeholder-gray-500 outline-none focus:border-teal-400 focus:bg-white/10 transition-all"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-white/70 mb-2">
-          Your story <span className="text-white/30">(min 50 characters)</span>
+        <label className="block text-sm font-medium text-gray-300 mb-2">
+          Your story <span className="text-gray-500">(min 50 characters)</span>
         </label>
         <textarea
           value={story}
           onChange={(e) => setStory(e.target.value)}
           placeholder="Share why this matters. Who are you? What problem are you solving? Where will every dollar go? Be specific — donors want to know exactly what they're funding."
           rows={9}
-          className="w-full rounded-xl border border-white/20 bg-white/5 px-4 py-3.5 text-white placeholder:text-white/30 outline-none focus:border-[#2EE5F2] focus:bg-white/10 transition-all resize-none leading-relaxed"
+          className="w-full rounded-xl border border-white/20 bg-white/5 px-4 py-3.5 text-white placeholder-gray-500 outline-none focus:border-teal-400 focus:bg-white/10 transition-all resize-none leading-relaxed"
         />
-        <p className="text-xs text-white/30 mt-1.5 text-right">{story.length} characters</p>
+        <p className="text-xs text-gray-500 mt-1.5 text-right">{story.length} characters</p>
       </div>
 
       <div className="flex gap-4">
         <button
           onClick={onBack}
-          className="px-8 py-4 rounded-full border border-white/20 text-white/60 font-semibold hover:border-white/40 hover:text-white transition-all"
+          className="px-8 py-4 rounded-full border border-white/20 text-gray-400 font-semibold hover:border-white/40 hover:text-white transition-all"
         >
           ← Back
         </button>
         <button
           onClick={handleNext}
           disabled={story.trim().length < 50 || !tagline.trim()}
-          className="flex-1 bg-white text-[#0D1B2E] font-bold text-lg rounded-full py-4 hover:bg-[#2EE5F2] disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+          className="flex-1 bg-white text-slate-900 font-bold text-lg rounded-full py-4 hover:bg-teal-400 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
         >
           Next: Pledge Tiers →
         </button>
@@ -335,19 +335,19 @@ function TiersStep({
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-3xl font-montserrat font-bold mb-2">Set your pledge tiers.</h2>
-        <p className="text-white/50">What do backers get at each level? Add at least 2 tiers.</p>
+        <h2 className="text-3xl font-bold mb-2">Set your pledge tiers.</h2>
+        <p className="text-gray-400">What do backers get at each level? Add at least 2 tiers.</p>
       </div>
 
       <div className="space-y-4">
         {tiers.map((tier, i) => (
           <div key={i} className="rounded-2xl border border-white/10 bg-white/5 p-5 space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-bold text-[#2EE5F2]">Tier {i + 1}</span>
+              <span className="text-sm font-bold text-teal-400">Tier {i + 1}</span>
               {tiers.length > 2 && (
                 <button
                   onClick={() => removeTier(i)}
-                  className="text-xs text-white/30 hover:text-red-400 transition-colors"
+                  className="text-xs text-gray-500 hover:text-red-400 transition-colors"
                 >
                   Remove
                 </button>
@@ -358,7 +358,7 @@ function TiersStep({
               value={tier.name}
               onChange={(e) => updateTier(i, 'name', e.target.value)}
               placeholder="Tier name (e.g. Early Backer)"
-              className="w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2.5 text-sm text-white placeholder:text-white/30 outline-none focus:border-[#2EE5F2] transition-all"
+              className="w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2.5 text-sm text-white placeholder-gray-500 outline-none focus:border-teal-400 transition-all"
             />
             <div className="flex gap-3">
               <input
@@ -367,14 +367,14 @@ function TiersStep({
                 onChange={(e) => updateTier(i, 'amount_cents', e.target.value)}
                 min={1}
                 placeholder="CAD"
-                className="w-24 rounded-lg border border-white/10 bg-black/20 px-3 py-2.5 text-sm text-white outline-none focus:border-[#2EE5F2] transition-all"
+                className="w-24 rounded-lg border border-white/10 bg-black/20 px-3 py-2.5 text-sm text-white outline-none focus:border-teal-400 transition-all"
               />
               <input
                 type="text"
                 value={tier.description}
                 onChange={(e) => updateTier(i, 'description', e.target.value)}
                 placeholder="What backers get at this tier"
-                className="flex-1 rounded-lg border border-white/10 bg-black/20 px-3 py-2.5 text-sm text-white placeholder:text-white/30 outline-none focus:border-[#2EE5F2] transition-all"
+                className="flex-1 rounded-lg border border-white/10 bg-black/20 px-3 py-2.5 text-sm text-white placeholder-gray-500 outline-none focus:border-teal-400 transition-all"
               />
             </div>
           </div>
@@ -383,7 +383,7 @@ function TiersStep({
 
       <button
         onClick={addTier}
-        className="w-full py-3 rounded-xl border border-dashed border-white/20 text-white/40 text-sm hover:border-[#2EE5F2] hover:text-[#2EE5F2] transition-all"
+        className="w-full py-3 rounded-xl border border-dashed border-white/20 text-gray-500 text-sm hover:border-teal-400 hover:text-teal-400 transition-all"
       >
         + Add another tier
       </button>
@@ -391,14 +391,14 @@ function TiersStep({
       <div className="flex gap-4">
         <button
           onClick={onBack}
-          className="px-8 py-4 rounded-full border border-white/20 text-white/60 font-semibold hover:border-white/40 hover:text-white transition-all"
+          className="px-8 py-4 rounded-full border border-white/20 text-gray-400 font-semibold hover:border-white/40 hover:text-white transition-all"
         >
           ← Back
         </button>
         <button
           onClick={onNext}
           disabled={tiers.length < 2 || tiers.some((t) => !t.name || t.amount_cents <= 0)}
-          className="flex-1 bg-white text-[#0D1B2E] font-bold text-lg rounded-full py-4 hover:bg-[#2EE5F2] disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+          className="flex-1 bg-white text-slate-900 font-bold text-lg rounded-full py-4 hover:bg-teal-400 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
         >
           Next: Preview →
         </button>
@@ -428,41 +428,41 @@ function PreviewStep({
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-3xl font-montserrat font-bold mb-2">Review & publish.</h2>
-        <p className="text-white/50">This is how your campaign will look to donors.</p>
+        <h2 className="text-3xl font-bold mb-2">Review & publish.</h2>
+        <p className="text-gray-400">This is how your campaign will look to donors.</p>
       </div>
 
       {/* Preview card */}
       <div className="rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
-        <div className="h-1.5 bg-gradient-to-r from-[#4831B0] to-[#2EE5F2]" />
+        <div className="h-1.5 bg-gradient-to-r from-violet-600 to-teal-400" />
         <div className="p-6 space-y-4">
           {form.category && (
-            <p className="text-xs text-[#2EE5F2] uppercase tracking-widest font-medium">
+            <p className="text-xs text-teal-400 uppercase tracking-widest font-medium">
               {form.category}
             </p>
           )}
           <h3 className="text-xl font-bold">{form.title || 'Your Campaign'}</h3>
-          {form.tagline && <p className="text-white/50 text-sm">{form.tagline}</p>}
+          {form.tagline && <p className="text-gray-400 text-sm">{form.tagline}</p>}
 
           <div>
             <div className="h-2 rounded-full bg-white/10 overflow-hidden">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-[#4831B0] to-[#2EE5F2]"
+                className="h-full rounded-full bg-gradient-to-r from-violet-600 to-teal-400"
                 style={{ width: `${pct}%` }}
               />
             </div>
-            <p className="text-xs text-white/30 mt-1.5">
+            <p className="text-xs text-gray-500 mt-1.5">
               ${(raised / 100).toLocaleString('en-CA', { minimumFractionDigits: 0 })} raised · {pct}% funded
             </p>
           </div>
 
           {form.pledge_tiers && form.pledge_tiers.length > 0 && (
             <div className="space-y-2 pt-2">
-              <p className="text-xs text-white/30 uppercase tracking-wider">Pledge options</p>
+              <p className="text-xs text-gray-500 uppercase tracking-wider">Pledge options</p>
               {form.pledge_tiers.map((tier, i) => (
                 <div key={i} className="flex justify-between text-sm">
-                  <span className="text-white/60">{tier.name}</span>
-                  <span className="font-bold text-[#2EE5F2]">
+                  <span className="text-gray-400">{tier.name}</span>
+                  <span className="font-bold text-teal-400">
                     ${new Intl.NumberFormat('en-CA', { minimumFractionDigits: 0 }).format(tier.amount_cents / 100)}
                   </span>
                 </div>
@@ -482,14 +482,14 @@ function PreviewStep({
         <button
           onClick={onBack}
           disabled={loading}
-          className="px-8 py-4 rounded-full border border-white/20 text-white/60 font-semibold hover:border-white/40 hover:text-white disabled:opacity-50 transition-all"
+          className="px-8 py-4 rounded-full border border-white/20 text-gray-400 font-semibold hover:border-white/40 hover:text-white disabled:opacity-50 transition-all"
         >
           ← Back
         </button>
         <button
           onClick={onPublish}
           disabled={loading}
-          className="flex-1 bg-gradient-to-r from-[#4831B0] to-[#2EE5F2] text-white font-bold text-lg rounded-full py-4 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+          className="flex-1 bg-gradient-to-r from-violet-600 to-teal-400 text-white font-bold text-lg rounded-full py-4 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
         >
           {loading ? 'Publishing...' : '🎉 Publish My Campaign'}
         </button>
