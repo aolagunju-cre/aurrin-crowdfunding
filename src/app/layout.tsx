@@ -10,22 +10,22 @@ export const metadata: Metadata = {
 
 function Nav() {
   return (
-    <nav className="border-b border-white/10 px-3 py-2.5">
+    <nav className="border-b border-gray-200 bg-white px-3 py-2.5 sticky top-0 z-50">
       <div className="max-w-xl mx-auto flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <img src="/logo.jpg" alt="Aurrin" className="h-7 w-auto rounded" />
-          <span className="font-bold text-xs tracking-widest hidden sm:block">CROWDFUNDING</span>
+          <span className="font-bold text-xs tracking-widest text-slate-900 hidden sm:block">CROWDFUNDING</span>
         </Link>
         <div className="flex items-center gap-2 sm:gap-3">
           <Link
             href="/campaigns"
-            className="text-gray-400 hover:text-white transition-colors text-sm px-1 py-1"
+            className="text-slate-500 hover:text-slate-900 transition-colors text-sm px-1 py-1"
           >
             Browse
           </Link>
           <Link
             href="/create"
-            className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white text-slate-900 text-xs sm:text-sm font-semibold hover:bg-teal-400 transition-colors whitespace-nowrap"
+            className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-slate-900 text-white text-xs sm:text-sm font-semibold hover:bg-slate-700 transition-colors whitespace-nowrap"
           >
             Start a Campaign
           </Link>
@@ -37,7 +37,7 @@ function Nav() {
 
 function Footer() {
   return (
-    <footer className="px-6 py-8 mt-16 border-t border-white/10">
+    <footer className="px-6 py-8 mt-16 border-t border-gray-200 bg-white">
       <div className="max-w-xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-2">
           <img src="/logo.jpg" alt="Aurrin" className="h-5 w-auto rounded" />
@@ -51,7 +51,7 @@ function Footer() {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -60,8 +60,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body className="bg-[#0D1B2E] text-[#F1F3F2] font-sans antialiased min-h-screen">
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+      <body className="bg-white text-slate-900 font-sans antialiased min-h-screen">
+        <ThemeProvider attribute="class" defaultTheme="light">
           <Nav />
           <main className="min-h-screen">{children}</main>
           <Footer />
