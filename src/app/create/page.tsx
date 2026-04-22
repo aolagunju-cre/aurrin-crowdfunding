@@ -48,21 +48,6 @@ export default function CreatePage() {
 
   return (
     <div className="min-h-screen bg-[#0D1B2E] text-[#F1F3F2]">
-      {/* Nav */}
-      <div className="border-b border-white/10 px-6 py-5">
-        <div className="max-w-xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#4831B0] to-[#2EE5F2] flex items-center justify-center">
-              <span className="font-bold text-xs text-white">A</span>
-            </div>
-            <span className="font-bold text-sm tracking-widest">CROWDFUNDING</span>
-          </div>
-          <span className="text-sm text-white/40">
-            Step {step + 1} of {STEPS.length}
-          </span>
-        </div>
-      </div>
-
       {/* Step indicator */}
       <div className="border-b border-white/10 px-6 py-5">
         <div className="max-w-xl mx-auto">
