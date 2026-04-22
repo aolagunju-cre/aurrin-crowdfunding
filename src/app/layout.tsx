@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 function Nav() {
   return (
-    <nav className="border-b border-gray-200 bg-white px-3 py-2.5 sticky top-0 z-50">
+    <nav className="border-b border-gray-200 bg-[#F7F7F7] px-3 py-2.5 sticky top-0 z-50">
       <div className="max-w-xl mx-auto flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <img src="/logo.jpg" alt="Aurrin" className="h-7 w-auto rounded" />
@@ -37,7 +37,7 @@ function Nav() {
 
 function Footer() {
   return (
-    <footer className="px-6 py-8 mt-16 border-t border-gray-200 bg-white">
+    <footer className="px-6 py-8 mt-16 border-t border-gray-200 bg-[#F7F7F7]">
       <div className="max-w-xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-2">
           <img src="/logo.jpg" alt="Aurrin" className="h-5 w-auto rounded" />
@@ -60,7 +60,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body className="bg-white text-slate-900 font-sans antialiased min-h-screen">
+      <body className="bg-[#F7F7F7] text-slate-900 font-sans antialiased min-h-screen">
         <ThemeProvider attribute="class" defaultTheme="light">
           <Nav />
           <main className="min-h-screen">{children}</main>

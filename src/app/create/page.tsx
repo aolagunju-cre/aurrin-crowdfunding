@@ -47,9 +47,9 @@ export default function CreatePage() {
   }
 
   return (
-    <div className="min-h-screen bg-white text-slate-900">
+    <div className="min-h-screen bg-[#F7F7F7] text-slate-900">
       {/* Step indicator */}
-      <div className="border-b border-gray-200 bg-white px-6 py-5">
+      <div className="border-b border-gray-200 bg-[#F7F7F7] px-6 py-5">
         <div className="max-w-xl mx-auto">
           <div className="flex items-center justify-between mb-4">
             <p className="text-xs text-gray-400 font-medium">Step {step + 1} of {STEPS.length}</p>
@@ -148,7 +148,7 @@ function GoalStep({
           onChange={(e) => setTitle(e.target.value)}
           placeholder="e.g. Bear Valley Rescue Equipment"
           maxLength={80}
-          className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3.5 text-slate-900 placeholder:text-gray-400 outline-none focus:border-teal-500 focus:bg-white transition-all text-base"
+          className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3.5 text-slate-900 placeholder:text-gray-400 outline-none focus:border-teal-500 focus:bg-[#F7F7F7] transition-all text-base"
         />
       </div>
 
@@ -180,7 +180,7 @@ function GoalStep({
             onChange={(e) => setGoalDollars(Number(e.target.value))}
             min={100}
             max={1000000}
-            className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3.5 text-slate-900 outline-none focus:border-teal-500 focus:bg-white transition-all"
+            className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3.5 text-slate-900 outline-none focus:border-teal-500 focus:bg-[#F7F7F7] transition-all"
           />
         </div>
         <div>
@@ -191,7 +191,7 @@ function GoalStep({
             onChange={(e) => setDuration(Number(e.target.value))}
             min={7}
             max={90}
-            className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3.5 text-slate-900 outline-none focus:border-teal-500 focus:bg-white transition-all"
+            className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3.5 text-slate-900 outline-none focus:border-teal-500 focus:bg-[#F7F7F7] transition-all"
           />
         </div>
       </div>
@@ -245,7 +245,7 @@ function StoryStep({
           onChange={(e) => setTagline(e.target.value)}
           placeholder="e.g. Equipment to rescue animals in northern Alberta"
           maxLength={120}
-          className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3.5 text-slate-900 placeholder:text-gray-400 outline-none focus:border-teal-500 focus:bg-white transition-all"
+          className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3.5 text-slate-900 placeholder:text-gray-400 outline-none focus:border-teal-500 focus:bg-[#F7F7F7] transition-all"
         />
       </div>
 
@@ -258,7 +258,7 @@ function StoryStep({
           onChange={(e) => setStory(e.target.value)}
           placeholder="Share why this matters. Who are you? What problem are you solving? Where will every dollar go? Be specific — donors want to know exactly what they're funding."
           rows={9}
-          className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3.5 text-slate-900 placeholder:text-gray-400 outline-none focus:border-teal-500 focus:bg-white transition-all resize-none leading-relaxed"
+          className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3.5 text-slate-900 placeholder:text-gray-400 outline-none focus:border-teal-500 focus:bg-[#F7F7F7] transition-all resize-none leading-relaxed"
         />
         <p className="text-xs text-gray-400 mt-1.5 text-right">{story.length} characters</p>
       </div>
@@ -344,7 +344,7 @@ function TiersStep({
               value={tier.name}
               onChange={(e) => updateTier(i, 'name', e.target.value)}
               placeholder="Tier name (e.g. Early Backer)"
-              className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm text-slate-900 placeholder:text-gray-400 outline-none focus:border-teal-500 transition-all"
+              className="w-full rounded-lg border border-gray-200 bg-[#F7F7F7] px-3 py-2.5 text-sm text-slate-900 placeholder:text-gray-400 outline-none focus:border-teal-500 transition-all"
             />
             <div className="flex gap-3">
               <input
@@ -353,14 +353,14 @@ function TiersStep({
                 onChange={(e) => updateTier(i, 'amount_cents', e.target.value)}
                 min={1}
                 placeholder="CAD"
-                className="w-24 rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none focus:border-teal-500 transition-all"
+                className="w-24 rounded-lg border border-gray-200 bg-[#F7F7F7] px-3 py-2.5 text-sm text-slate-900 outline-none focus:border-teal-500 transition-all"
               />
               <input
                 type="text"
                 value={tier.description}
                 onChange={(e) => updateTier(i, 'description', e.target.value)}
                 placeholder="What backers get at this tier"
-                className="flex-1 rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm text-slate-900 placeholder:text-gray-400 outline-none focus:border-teal-500 transition-all"
+                className="flex-1 rounded-lg border border-gray-200 bg-[#F7F7F7] px-3 py-2.5 text-sm text-slate-900 placeholder:text-gray-400 outline-none focus:border-teal-500 transition-all"
               />
             </div>
           </div>
