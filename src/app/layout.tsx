@@ -1,16 +1,14 @@
 import type { Metadata } from "next";
+import { HeroUIProvider } from "@heroui/react";
+import { Providers } from "next-themes";
 import "@/styles/globals.css";
 
 export const metadata: Metadata = {
   title: "Aurrin Crowdfunding",
-  description: "Community-powered funding for founders. No government. No gatekeepers. Just people building.",
+  description: "Community-powered funding for founders.",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="dark">
       <head>
@@ -21,41 +19,12 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="bg-navy text-white font-sans antialiased">
-        {/* Navbar */}
-        <nav className="border-b border-white/10 px-6 py-4">
-          <div className="max-w-6xl mx-auto flex justify-between items-center">
-            <a href="/campaigns" className="flex items-center gap-2">
-              <span className="font-montserrat font-bold text-lg tracking-wide">AURRIN</span>
-              <span className="text-default-500 text-sm font-light">CROWDFUNDING</span>
-            </a>
-            <div className="flex items-center gap-4">
-              <a href="/campaigns" className="text-sm hover:text-violet-400 transition-colors">Browse</a>
-              <a
-                href="/start"
-                className="px-4 py-2 rounded-full bg-white text-navy text-sm font-semibold hover:bg-violet-100 transition-colors"
-              >
-                Start a Campaign
-              </a>
-            </div>
-          </div>
-        </nav>
-
-        {/* Main */}
-        <main className="min-h-screen">{children}</main>
-
-        {/* Footer */}
-        <footer className="px-6 py-8 mt-16 border-t border-white/10">
-          <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-default-500">
-              © {new Date().getFullYear()} Aurrin Ventures · Dream it. Pitch it. Build it.
-            </p>
-            <div className="flex gap-6 text-sm text-default-500">
-              <a href="/privacy" className="hover:text-violet-400 transition-colors">Privacy</a>
-              <a href="/terms" className="hover:text-violet-400 transition-colors">Terms</a>
-            </div>
-          </div>
-        </footer>
+      <body className="bg-[#0D1B2E] text-[#F1F3F2] font-sans antialiased min-h-screen">
+        <Providers>
+          <HeroUIProvider>
+            {children}
+          </HeroUIProvider>
+        </Providers>
       </body>
     </html>
   );

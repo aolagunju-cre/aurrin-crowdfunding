@@ -3,13 +3,22 @@
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import {
+  Input,
+  Textarea,
+  Button,
+  RadioGroup,
+  Radio,
+  Card,
+  CardBody,
+} from '@heroui/react';
 import type { CampaignFormData } from './types';
 
 const STEPS = [
-  { id: 'goal', label: 'Goal', description: 'What are you building?' },
-  { id: 'story', label: 'Story', description: 'Tell your story' },
-  { id: 'tiers', label: 'Tiers', description: 'Set your pledge rewards' },
-  { id: 'preview', label: 'Preview', description: 'Review & publish' },
+  { id: 'goal', label: 'Goal', icon: '1' },
+  { id: 'story', label: 'Story', icon: '2' },
+  { id: 'tiers', label: 'Tiers', icon: '3' },
+  { id: 'preview', label: 'Preview', icon: '4' },
 ];
 
 export default function CreatePage() {
@@ -37,103 +46,99 @@ export default function CreatePage() {
     }
   }
 
-  function updateField<K extends keyof CampaignFormData>(key: K, value: CampaignFormData[K]) {
+  function update<K extends keyof CampaignFormData>(key: K, value: CampaignFormData[K]) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
-  const current = STEPS[step];
-
   return (
-    <div className="min-h-screen bg-navy flex flex-col">
-      {/* Top bar */}
+    <div className="min-h-screen bg-[#0D1B2E] text-[#F1F3F2]">
+      {/* Nav */}
       <div className="border-b border-white/10 px-6 py-5">
-        <div className="max-w-2xl mx-auto flex items-center justify-between">
+        <div className="max-w-xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="font-montserrat font-bold text-white tracking-wide">AURRIN</span>
-            <span className="text-default-500 text-sm">CROWDFUNDING</span>
+            <img src="/logo.png" alt="Aurrin" className="h-8 w-auto" />
+            <span className="font-montserrat font-bold text-sm tracking-widest text-[#F1F3F2]">CROWDFUNDING</span>
           </div>
-          <span className="text-sm text-default-500">
+          <span className="text-sm text-white/40 font-medium">
             Step {step + 1} of {STEPS.length}
           </span>
         </div>
       </div>
 
       {/* Step indicator */}
-      <div className="border-b border-white/10 px-6 py-4">
-        <div className="max-w-2xl mx-auto">
-          <div className="flex items-center gap-2">
+      <div className="border-b border-white/10 px-6 py-5">
+        <div className="max-w-xl mx-auto">
+          <div className="flex items-center gap-0">
             {STEPS.map((s, i) => (
-              <div key={s.id} className="flex items-center gap-2 flex-1">
-                <button
-                  onClick={() => setStep(i)}
-                  className={`flex items-center gap-2 text-sm font-medium transition-colors ${
+              <button
+                key={s.id}
+                onClick={() => i < step && setStep(i)}
+                className={`flex items-center gap-2 text-sm font-medium transition-colors ${
+                  i === step
+                    ? 'text-white'
+                    : i < step
+                    ? 'text-[#2EE5F2] cursor-pointer hover:opacity-80'
+                    : 'text-white/30'
+                }`}
+              >
+                <div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-colors ${
                     i === step
-                      ? 'text-white'
+                      ? 'border-[#2EE5F2] bg-[#2EE5F2]/10 text-[#2EE5F2]'
                       : i < step
-                      ? 'text-teal cursor-pointer hover:opacity-80'
-                      : 'text-default-600 cursor-default'
+                      ? 'border-[#2EE5F2] bg-[#2EE5F2] text-[#0D1B2E]'
+                      : 'border-white/20 text-white/30'
                   }`}
                 >
-                  <div
-                    className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold border-2 ${
-                      i === step
-                        ? 'border-teal bg-teal/20 text-teal'
-                        : i < step
-                        ? 'border-teal bg-teal text-navy'
-                        : 'border-white/20 text-default-600'
-                    }`}
-                  >
-                    {i < step ? '✓' : i + 1}
-                  </div>
-                  <span className="hidden sm:inline">{s.label}</span>
-                </button>
+                  {i < step ? '✓' : s.icon}
+                </div>
+                <span className="hidden sm:inline">{s.label}</span>
                 {i < STEPS.length - 1 && (
-                  <div className={`flex-1 h-px ${i < step ? 'bg-teal' : 'bg-white/10'}`} />
+                  <div className={`w-8 sm:w-16 h-px mx-2 ${i < step ? 'bg-[#2EE5F2]' : 'bg-white/10'}`} />
                 )}
-              </div>
+              </button>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Step content */}
-      <div className="flex-1 flex items-center justify-center px-6 py-12">
-        <div className="w-full max-w-2xl">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={step}
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -30 }}
-              transition={{ duration: 0.25, ease: 'easeOut' }}
-            >
-              {step === 0 && (
-                <GoalStep form={form} update={updateField} onNext={() => setStep(1)} />
-              )}
-              {step === 1 && (
-                <StoryStep form={form} update={updateField} onNext={() => setStep(2)} onBack={() => setStep(0)} />
-              )}
-              {step === 2 && (
-                <TiersStep form={form} update={updateField} onNext={() => setStep(3)} onBack={() => setStep(1)} />
-              )}
-              {step === 3 && (
-                <PreviewStep
-                  form={form}
-                  onBack={() => setStep(2)}
-                  onPublish={handlePublish}
-                  loading={loading}
-                  error={error}
-                />
-              )}
-            </motion.div>
-          </AnimatePresence>
-        </div>
+      {/* Content */}
+      <div className="max-w-xl mx-auto px-6 py-12">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={step}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+          >
+            {step === 0 && <GoalStep form={form} update={update} onNext={() => setStep(1)} />}
+            {step === 1 && <StoryStep form={form} update={update} onNext={() => setStep(2)} onBack={() => setStep(0)} />}
+            {step === 2 && <TiersStep form={form} update={update} onNext={() => setStep(3)} onBack={() => setStep(1)} />}
+            {step === 3 && (
+              <PreviewStep
+                form={form}
+                onBack={() => setStep(2)}
+                onPublish={handlePublish}
+                loading={loading}
+                error={error}
+              />
+            )}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </div>
   );
 }
 
-// ─── Step 1: Goal ────────────────────────────────────────────────────────────
+// ─── Step 1: Goal ───────────────────────────────────────────────────────────
+
+const CATEGORIES = [
+  'Technology', 'Creative / Art', 'Community', 'Health',
+  'Education', 'Environment', 'Food & Beverage', 'Sports', 'Other',
+];
+
+type UpdateFn = (key: keyof CampaignFormData, value: unknown) => void;
 
 function GoalStep({
   form,
@@ -141,23 +146,18 @@ function GoalStep({
   onNext,
 }: {
   form: Partial<CampaignFormData>;
-  update: <K extends keyof CampaignFormData>(k: K, v: CampaignFormData[K]) => void;
+  update: UpdateFn;
   onNext: () => void;
 }) {
   const [title, setTitle] = useState(form.title ?? '');
   const [category, setCategory] = useState(form.category ?? '');
-  const [goalCents, setGoalCents] = useState(form.funding_goal_cents ?? 50000);
+  const [goalDollars, setGoalDollars] = useState(form.funding_goal_cents ? form.funding_goal_cents / 100 : 500);
   const [duration, setDuration] = useState(form.duration_days ?? 30);
-
-  const categories = [
-    'Technology', 'Creative / Art', 'Community', 'Health', 'Education',
-    'Environment', 'Food & Beverage', 'Sports', 'Other',
-  ];
 
   function handleNext() {
     update('title', title);
     update('category', category);
-    update('funding_goal_cents', goalCents);
+    update('funding_goal_cents', Math.round(goalDollars * 100));
     update('duration_days', duration);
     if (!title.trim() || !category) return;
     onNext();
@@ -167,73 +167,78 @@ function GoalStep({
     <div className="space-y-8">
       <div>
         <h2 className="text-3xl font-montserrat font-bold mb-2">What are you building?</h2>
-        <p className="text-default-500">Give your campaign a name and tell us the category.</p>
+        <p className="text-white/50">Name your campaign and pick a category.</p>
       </div>
 
-      <div className="space-y-5">
-        <div>
-          <label className="block text-sm font-medium mb-2">Campaign Name *</label>
-          <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="e.g. Bear Valley Rescue Equipment"
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-default-600 outline-none focus:border-teal transition-colors"
-            maxLength={80}
-          />
-        </div>
+      <Input
+        label="Campaign Name"
+        placeholder="e.g. Bear Valley Rescue Equipment"
+        value={title}
+        onValueChange={setTitle}
+        variant="bordered"
+        classNames={{
+          label: 'text-white/70 text-sm font-medium',
+          input: 'text-white placeholder:text-white/30',
+          inputWrapper: 'border-white/20 bg-white/5 hover:border-white/40 focus-within:border-[#2EE5F2] rounded-xl',
+          errorMessage: 'text-red-400',
+        }}
+        maxLength={80}
+        fullWidth
+      />
 
-        <div>
-          <label className="block text-sm font-medium mb-2">Category *</label>
-          <div className="flex flex-wrap gap-2">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setCategory(cat)}
-                className={`px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
-                  category === cat
-                    ? 'border-teal bg-teal/20 text-teal'
-                    : 'border-white/10 text-default-400 hover:border-white/30'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
+      <RadioGroup
+        label={<span className="text-white/70 text-sm font-medium">Category</span>}
+        value={category}
+        onValueChange={setCategory}
+        classNames={{ label: 'text-white/70', wrapper: 'gap-3 flex flex-wrap' }}
+      >
+        {CATEGORIES.map((cat) => (
+          <Radio key={cat} value={cat} classNames={{ label: 'text-white/70 text-sm' }}>
+            {cat}
+          </Radio>
+        ))}
+      </RadioGroup>
 
-        <div className="grid grid-cols-2 gap-5">
-          <div>
-            <label className="block text-sm font-medium mb-2">Funding Goal (CAD)</label>
-            <input
-              type="number"
-              value={goalCents / 100}
-              onChange={(e) => setGoalCents(Math.round(Number(e.target.value) * 100))}
-              min={100}
-              max={1000000}
-              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none focus:border-teal"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">Campaign Duration (days)</label>
-            <input
-              type="number"
-              value={duration}
-              onChange={(e) => setDuration(Number(e.target.value))}
-              min={7}
-              max={90}
-              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none focus:border-teal"
-            />
-          </div>
-        </div>
+      <div className="grid grid-cols-2 gap-4">
+        <Input
+          label="Funding Goal (CAD)"
+          type="number"
+          value={String(goalDollars)}
+          onValueChange={(v) => setGoalDollars(Number(v))}
+          variant="bordered"
+          min={100}
+          max={1000000}
+          classNames={{
+            label: 'text-white/70 text-sm font-medium',
+            input: 'text-white',
+            inputWrapper: 'border-white/20 bg-white/5 hover:border-white/40 focus-within:border-[#2EE5F2] rounded-xl',
+          }}
+          fullWidth
+        />
+        <Input
+          label="Duration (days)"
+          type="number"
+          value={String(duration)}
+          onValueChange={(v) => setDuration(Number(v))}
+          variant="bordered"
+          min={7}
+          max={90}
+          classNames={{
+            label: 'text-white/70 text-sm font-medium',
+            input: 'text-white',
+            inputWrapper: 'border-white/20 bg-white/5 hover:border-white/40 focus-within:border-[#2EE5F2] rounded-xl',
+          }}
+          fullWidth
+        />
       </div>
 
-      <button
-        onClick={handleNext}
-        disabled={!title.trim() || !category}
-        className="w-full py-4 rounded-full bg-white text-navy font-bold text-lg hover:bg-teal/90 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+      <Button
+        onPress={handleNext}
+        isDisabled={!title.trim() || !category}
+        className="w-full bg-white text-[#0D1B2E] font-bold text-lg rounded-full py-6 hover:bg-[#2EE5F2] disabled:opacity-40"
       >
         Next: Your Story →
-      </button>
+      </Button>
     </div>
   );
 }
@@ -247,20 +252,17 @@ function StoryStep({
   onBack,
 }: {
   form: Partial<CampaignFormData>;
-  update: <K extends keyof CampaignFormData>(k: K, v: CampaignFormData[K]) => void;
+  update: UpdateFn;
   onNext: () => void;
   onBack: () => void;
 }) {
   const [tagline, setTagline] = useState(form.tagline ?? '');
-  const [story, setStory] = = useState(form.story ?? '');
-  const [goalAmount, setGoalAmount] = useState(
-    form.funding_goal_cents ? form.funding_goal_cents / 100 : 500
-  );
+  const [story, setStory] = useState(form.story ?? '');
 
   function handleNext() {
     update('tagline', tagline);
     update('story', story);
-    if (story.length < 50) return;
+    if (story.trim().length < 50) return;
     onNext();
   }
 
@@ -268,50 +270,55 @@ function StoryStep({
     <div className="space-y-8">
       <div>
         <h2 className="text-3xl font-montserrat font-bold mb-2">Tell your story.</h2>
-        <p className="text-default-500">Why are you raising? What will the money fund?</p>
+        <p className="text-white/50">Why are you raising? Where will every dollar go?</p>
       </div>
 
-      <div className="space-y-5">
-        <div>
-          <label className="block text-sm font-medium mb-2">One-line pitch</label>
-          <input
-            value={tagline}
-            onChange={(e) => setTagline(e.target.value)}
-            placeholder="e.g. Equipment to rescue animals in northern Alberta"
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-default-600 outline-none focus:border-teal"
-            maxLength={120}
-          />
-        </div>
+      <Input
+        label="One-line pitch"
+        placeholder="e.g. Equipment to rescue animals in northern Alberta"
+        value={tagline}
+        onValueChange={setTagline}
+        variant="bordered"
+        classNames={{
+          label: 'text-white/70 text-sm font-medium',
+          input: 'text-white placeholder:text-white/30',
+          inputWrapper: 'border-white/20 bg-white/5 hover:border-white/40 focus-within:border-[#2EE5F2] rounded-xl',
+        }}
+        maxLength={120}
+        fullWidth
+      />
 
-        <div>
-          <label className="block text-sm font-medium mb-2">
-            Your story <span className="text-default-600">(min 50 chars)</span>
-          </label>
-          <textarea
-            value={story}
-            onChange={(e) => setStory(e.target.value)}
-            placeholder="Share why this matters. Who are you? What problem are you solving? Where will every dollar go? Be specific — donors want to know exactly what they're funding."
-            rows={10}
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-default-600 outline-none focus:border-teal resize-none leading-relaxed"
-          />
-          <p className="text-xs text-right mt-1 text-default-600">{story.length} characters</p>
-        </div>
-      </div>
+      <Textarea
+        label="Your story"
+        placeholder="Share why this matters. Who are you? What problem are you solving? Where will every dollar go? Be specific — donors want to know exactly what they're funding."
+        value={story}
+        onValueChange={setStory}
+        variant="bordered"
+        minRows={8}
+        classNames={{
+          label: 'text-white/70 text-sm font-medium mb-3',
+          input: 'text-white placeholder:text-white/30 leading-relaxed',
+          inputWrapper: 'border-white/20 bg-white/5 hover:border-white/40 focus-within:border-[#2EE5F2] rounded-xl text-white',
+        }}
+        fullWidth
+      />
+      <p className="text-xs text-white/30 -mt-4 text-right">{story.length} chars</p>
 
       <div className="flex gap-4">
-        <button
-          onClick={onBack}
-          className="px-8 py-4 rounded-full border border-white/10 text-default-400 font-semibold hover:border-white/30 transition-colors"
+        <Button
+          onPress={onBack}
+          variant="bordered"
+          className="border-white/20 text-white/60 font-semibold rounded-full px-8 py-6 hover:border-white/40"
         >
           ← Back
-        </button>
-        <button
-          onClick={handleNext}
-          disabled={story.length < 50 || !tagline.trim()}
-          className="flex-1 py-4 rounded-full bg-white text-navy font-bold text-lg hover:bg-teal/90 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+        </Button>
+        <Button
+          onPress={handleNext}
+          isDisabled={story.trim().length < 50 || !tagline.trim()}
+          className="flex-1 bg-white text-[#0D1B2E] font-bold text-lg rounded-full py-6 hover:bg-[#2EE5F2] disabled:opacity-40"
         >
           Next: Pledge Tiers →
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -326,7 +333,7 @@ function TiersStep({
   onBack,
 }: {
   form: Partial<CampaignFormData>;
-  update: <K extends keyof CampaignFormData>(k: K, v: CampaignFormData[K]) => void;
+  update: UpdateFn;
   onNext: () => void;
   onBack: () => void;
 }) {
@@ -336,9 +343,9 @@ function TiersStep({
     { name: 'Lead Patron', amount_cents: 25000, description: 'All of the above + an invite to the equipment unveiling event.' },
   ];
 
-  function updateTier(index: number, field: string, value: string | number) {
+  function updateTier(i: number, field: string, value: string | number) {
     const updated = [...tiers];
-    updated[index] = { ...updated[index], [field]: field === 'amount_cents' ? Math.round(Number(value) * 100) : value };
+    updated[i] = { ...updated[i], [field]: field === 'amount_cents' ? Math.round(Number(value) * 100) : value };
     update('pledge_tiers', updated);
   }
 
@@ -346,78 +353,103 @@ function TiersStep({
     update('pledge_tiers', [...tiers, { name: '', amount_cents: 5000, description: '' }]);
   }
 
-  function removeTier(index: number) {
-    update('pledge_tiers', tiers.filter((_, i) => i !== index));
-  }
-
-  function formatAmount(cents: number) {
-    return new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD', minimumFractionDigits: 0 }).format(cents / 100);
+  function removeTier(i: number) {
+    update('pledge_tiers', tiers.filter((_, idx) => idx !== i));
   }
 
   return (
     <div className="space-y-8">
       <div>
         <h2 className="text-3xl font-montserrat font-bold mb-2">Set your pledge tiers.</h2>
-        <p className="text-default-500">What do backers get at each level? Add at least 2 tiers.</p>
+        <p className="text-white/50">What do backers get at each level? Add at least 2 tiers.</p>
       </div>
 
       <div className="space-y-5">
         {tiers.map((tier, i) => (
-          <div key={i} className="rounded-xl border border-white/10 bg-white/5 p-5 space-y-3">
-            <div className="flex items-start justify-between">
-              <span className="text-sm font-bold text-teal">Tier {i + 1}</span>
-              {tiers.length > 2 && (
-                <button onClick={() => removeTier(i)} className="text-xs text-default-600 hover:text-red-400 transition-colors">
-                  Remove
-                </button>
-              )}
-            </div>
-            <input
-              value={tier.name}
-              onChange={(e) => updateTier(i, 'name', e.target.value)}
-              placeholder="Tier name (e.g. Early Backer)"
-              className="w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm text-white placeholder:text-default-600 outline-none focus:border-teal"
-            />
-            <div className="flex gap-3">
-              <input
-                type="number"
-                value={tier.amount_cents / 100}
-                onChange={(e) => updateTier(i, 'amount_cents', e.target.value)}
-                min={1}
-                className="w-28 rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm text-white outline-none focus:border-teal"
+          <Card key={i} className="bg-white/5 border border-white/10 rounded-2xl">
+            <CardBody className="gap-4">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-bold text-[#2EE5F2]">Tier {i + 1}</span>
+                {tiers.length > 2 && (
+                  <button
+                    onClick={() => removeTier(i)}
+                    className="text-xs text-white/30 hover:text-red-400 transition-colors"
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+              <Input
+                label="Tier name"
+                placeholder="e.g. Early Backer"
+                value={tier.name}
+                onValueChange={(v) => updateTier(i, 'name', v)}
+                variant="bordered"
+                size="sm"
+                classNames={{
+                  label: 'text-white/60 text-xs font-medium',
+                  input: 'text-white placeholder:text-white/30',
+                  inputWrapper: 'border-white/15 bg-black/20 hover:border-white/30 focus-within:border-[#2EE5F2] rounded-lg',
+                }}
+                fullWidth
               />
-              <input
-                value={tier.description}
-                onChange={(e) => updateTier(i, 'description', e.target.value)}
-                placeholder="What backers get at this tier"
-                className="flex-1 rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm text-white placeholder:text-default-600 outline-none focus:border-teal"
-              />
-            </div>
-          </div>
+              <div className="flex gap-3">
+                <Input
+                  label="Amount (CAD)"
+                  type="number"
+                  value={String(tier.amount_cents / 100)}
+                  onValueChange={(v) => updateTier(i, 'amount_cents', v)}
+                  variant="bordered"
+                  size="sm"
+                  min={1}
+                  classNames={{
+                    label: 'text-white/60 text-xs font-medium',
+                    input: 'text-white w-24',
+                    inputWrapper: 'border-white/15 bg-black/20 hover:border-white/30 focus-within:border-[#2EE5F2] rounded-lg w-28',
+                  }}
+                />
+                <Input
+                  label="Description"
+                  placeholder="What backers get at this tier"
+                  value={tier.description}
+                  onValueChange={(v) => updateTier(i, 'description', v)}
+                  variant="bordered"
+                  size="sm"
+                  classNames={{
+                    label: 'text-white/60 text-xs font-medium',
+                    input: 'text-white placeholder:text-white/30',
+                    inputWrapper: 'border-white/15 bg-black/20 hover:border-white/30 focus-within:border-[#2EE5F2] rounded-lg flex-1',
+                  }}
+                  fullWidth
+                />
+              </div>
+            </CardBody>
+          </Card>
         ))}
       </div>
 
       <button
         onClick={addTier}
-        className="w-full py-3 rounded-xl border border-dashed border-white/20 text-default-500 text-sm hover:border-teal hover:text-teal transition-colors"
+        className="w-full py-3 rounded-xl border border-dashed border-white/20 text-white/40 text-sm hover:border-[#2EE5F2] hover:text-[#2EE5F2] transition-colors"
       >
         + Add another tier
       </button>
 
       <div className="flex gap-4">
-        <button
-          onClick={onBack}
-          className="px-8 py-4 rounded-full border border-white/10 text-default-400 font-semibold hover:border-white/30 transition-colors"
+        <Button
+          onPress={onBack}
+          variant="bordered"
+          className="border-white/20 text-white/60 font-semibold rounded-full px-8 py-6 hover:border-white/40"
         >
           ← Back
-        </button>
-        <button
-          onClick={onNext}
-          disabled={tiers.length < 2 || tiers.some((t) => !t.name || t.amount_cents <= 0)}
-          className="flex-1 py-4 rounded-full bg-white text-navy font-bold text-lg hover:bg-teal/90 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+        </Button>
+        <Button
+          onPress={onNext}
+          isDisabled={tiers.length < 2 || tiers.some((t) => !t.name || t.amount_cents <= 0)}
+          className="flex-1 bg-white text-[#0D1B2E] font-bold text-lg rounded-full py-6 hover:bg-[#2EE5F2] disabled:opacity-40"
         >
           Next: Preview →
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -438,69 +470,73 @@ function PreviewStep({
   loading: boolean;
   error: string | null;
 }) {
-  const raised = form.funding_goal_cents ? Math.round(form.funding_goal_cents * 0.1) : 0;
+  const raised = form.funding_goal_cents ? Math.round(form.funding_goal_cents * 0.05) : 0;
+  const pct = form.funding_goal_cents ? Math.round((raised / form.funding_goal_cents) * 100) : 0;
 
   return (
     <div className="space-y-8">
       <div>
         <h2 className="text-3xl font-montserrat font-bold mb-2">Review & publish.</h2>
-        <p className="text-default-500">This is how your campaign will look to donors.</p>
+        <p className="text-white/50">This is how your campaign will look to donors.</p>
       </div>
 
-      {/* Mock campaign card */}
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-6 space-y-4">
-        <div>
+      <Card className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+        <CardBody className="gap-4">
           {form.category && (
-            <p className="text-xs text-teal uppercase tracking-wider mb-2">{form.category}</p>
+            <p className="text-xs text-[#2EE5F2] uppercase tracking-widest font-medium">
+              {form.category}
+            </p>
           )}
-          <h3 className="text-xl font-bold">{form.title || 'Campaign Name'}</h3>
-          {form.tagline && <p className="text-default-400 text-sm mt-1">{form.tagline}</p>}
-        </div>
-        <div>
-          <div className="w-full h-2 rounded-full bg-white/10">
-            <div className="h-full rounded-full bg-gradient-to-r from-violet to-teal w-[10%]" />
+          <h3 className="text-xl font-bold">{form.title || 'Your Campaign'}</h3>
+          {form.tagline && <p className="text-white/50 text-sm">{form.tagline}</p>}
+
+          <div>
+            <div className="h-2 rounded-full bg-white/10 overflow-hidden">
+              <div className="h-full rounded-full bg-gradient-to-r from-[#4831B0] to-[#2EE5F2] w-[5%]" />
+            </div>
+            <p className="text-xs text-white/30 mt-1">
+              ${(raised / 100).toLocaleString('en-CA', { minimumFractionDigits: 0 })} raised · {pct}% funded
+            </p>
           </div>
-          <p className="text-xs text-default-600 mt-1">
-            ${(raised / 100).toLocaleString('en-CA', { minimumFractionDigits: 0 })} raised ·{' '}
-            {(form.funding_goal_cents ?? 0) > 0
-              ? Math.round((raised / (form.funding_goal_cents ?? 1)) * 100)
-              : 0}% funded
-          </p>
-        </div>
-        {form.pledge_tiers && form.pledge_tiers.length > 0 && (
-          <div className="space-y-2">
-            <p className="text-xs text-default-600 uppercase tracking-wider">Pledge options</p>
-            {form.pledge_tiers.map((tier, i) => (
-              <div key={i} className="flex justify-between text-sm">
-                <span className="text-default-300">{tier.name}</span>
-                <span className="font-bold text-teal">
-                  ${new Intl.NumberFormat('en-CA', { minimumFractionDigits: 0 }).format(tier.amount_cents / 100)}
-                </span>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+
+          {form.pledge_tiers && form.pledge_tiers.length > 0 && (
+            <div className="space-y-2">
+              <p className="text-xs text-white/30 uppercase tracking-wider">Pledge options</p>
+              {form.pledge_tiers.map((tier, i) => (
+                <div key={i} className="flex justify-between text-sm">
+                  <span className="text-white/60">{tier.name}</span>
+                  <span className="font-bold text-[#2EE5F2]">
+                    ${new Intl.NumberFormat('en-CA', { minimumFractionDigits: 0 }).format(tier.amount_cents / 100)}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardBody>
+      </Card>
 
       {error && (
-        <p className="text-red-400 text-sm bg-red-400/10 rounded-lg px-4 py-3">{error}</p>
+        <div className="bg-red-400/10 border border-red-400/30 rounded-xl px-4 py-3 text-red-400 text-sm">
+          {error}
+        </div>
       )}
 
       <div className="flex gap-4">
-        <button
-          onClick={onBack}
-          disabled={loading}
-          className="px-8 py-4 rounded-full border border-white/10 text-default-400 font-semibold hover:border-white/30 disabled:opacity-50 transition-colors"
+        <Button
+          onPress={onBack}
+          isDisabled={loading}
+          variant="bordered"
+          className="border-white/20 text-white/60 font-semibold rounded-full px-8 py-6 hover:border-white/40 disabled:opacity-50"
         >
           ← Back
-        </button>
-        <button
-          onClick={onPublish}
-          disabled={loading}
-          className="flex-1 py-4 rounded-full bg-gradient-to-r from-violet to-teal text-white font-bold text-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
+        </Button>
+        <Button
+          onPress={onPublish}
+          isLoading={loading}
+          className="flex-1 bg-gradient-to-r from-[#4831B0] to-[#2EE5F2] text-white font-bold text-lg rounded-full py-6 hover:opacity-90 disabled:opacity-50"
         >
           {loading ? 'Publishing...' : '🎉 Publish My Campaign'}
-        </button>
+        </Button>
       </div>
     </div>
   );
