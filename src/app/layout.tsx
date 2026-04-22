@@ -10,19 +10,22 @@ export const metadata: Metadata = {
 
 function Nav() {
   return (
-    <nav className="border-b border-white/10 px-6 py-4">
+    <nav className="border-b border-white/10 px-4 py-3">
       <div className="max-w-xl mx-auto flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-3">
-          <img src="/logo.jpg" alt="Aurrin" className="h-9 w-auto rounded" />
-          <span className="font-bold text-sm tracking-widest">CROWDFUNDING</span>
+        <Link href="/" className="flex items-center gap-2.5">
+          <img src="/logo.jpg" alt="Aurrin" className="h-8 w-auto rounded" />
+          <span className="font-bold text-xs tracking-widest hidden sm:block">CROWDFUNDING</span>
         </Link>
-        <div className="flex items-center gap-5 text-sm">
-          <Link href="/campaigns" className="text-gray-400 hover:text-white transition-colors">
+        <div className="flex items-center gap-3">
+          <Link
+            href="/campaigns"
+            className="text-gray-400 hover:text-white transition-colors text-sm px-2 py-1"
+          >
             Browse
           </Link>
           <Link
             href="/create"
-            className="px-4 py-2 rounded-full bg-white text-slate-900 text-sm font-semibold hover:bg-teal-400 transition-colors"
+            className="px-4 py-2 rounded-full bg-white text-slate-900 text-sm font-semibold hover:bg-teal-400 transition-colors whitespace-nowrap"
           >
             Start a Campaign
           </Link>
