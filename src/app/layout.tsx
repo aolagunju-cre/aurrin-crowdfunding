@@ -1,11 +1,10 @@
-import type { Metadata } from "next";
-import { HeroUIProvider } from "@heroui/react";
-import { Providers } from "next-themes";
-import "@/styles/globals.css";
+import type { Metadata } from 'next';
+import { ThemeProvider } from 'next-themes';
+import '@/styles/globals.css';
 
 export const metadata: Metadata = {
-  title: "Aurrin Crowdfunding",
-  description: "Community-powered funding for founders.",
+  title: 'Aurrin Crowdfunding',
+  description: 'Community-powered funding for founders.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -20,11 +19,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="bg-[#0D1B2E] text-[#F1F3F2] font-sans antialiased min-h-screen">
-        <Providers>
-          <HeroUIProvider>
-            {children}
-          </HeroUIProvider>
-        </Providers>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

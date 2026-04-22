@@ -2,8 +2,18 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const PLATFORM = process.env.NEXT_PUBLIC_PLATFORM_API_URL ?? 'https://aurrin-platform.vercel.app';
 
+interface CampaignBody {
+  title?: string;
+  tagline?: string;
+  story?: string;
+  category?: string;
+  funding_goal_cents?: number;
+  duration_days?: number;
+  pledge_tiers?: Array<{ name: string; amount_cents: number; description: string }>;
+}
+
 export async function POST(req: NextRequest) {
-  let body: Record<string, unknown>;
+  let body: CampaignBody;
 
   try {
     body = await req.json();

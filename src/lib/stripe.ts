@@ -1,12 +1,19 @@
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? '', {
-  apiVersion: '2024-12-18.acacia',
-});
+let _stripe: Stripe | null = null;
+
+function getStripe(): Stripe {
+  if (!_stripe) {
+    _stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? '', {
+      apiVersion: '2026-03-25.dahlia',
+    });
+  }
+  return _stripe;
+}
 
 interface DonateParams {
   campaignId: string;
-  tierIndex: number;       // index into pledge_tiers array
+  tierIndex: number;
   tierAmountCents: number;
   campaignTitle: string;
   successUrl: string;
@@ -14,6 +21,7 @@ interface DonateParams {
 }
 
 export async function createDonationCheckout(params: DonateParams): Promise<{ url: string }> {
+  const stripe = getStripe();
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',
     line_items: [
@@ -43,5 +51,5 @@ export async function createDonationCheckout(params: DonateParams): Promise<{ ur
 }
 
 export async function verifySession(sessionId: string) {
-  return stripe.checkout.sessions.retrieve(sessionId);
+  return getStripe().checkout.sessions.retrieve(sessionId);
 }
