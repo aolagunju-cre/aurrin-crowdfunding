@@ -19,7 +19,7 @@ export default function CampaignsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/campaigns')
+    fetch('/api/list')
       .then((r) => r.json())
       .then((data) => {
         if (data.campaigns) setCampaigns(data.campaigns);
