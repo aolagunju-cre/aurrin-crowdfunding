@@ -1,19 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from '@supabase/supabase-js';
 
-const PLATFORM = process.env.NEXT_PUBLIC_PLATFORM_API_URL ?? 'https://aurrin-platform.vercel.app';
+let _supabase: ReturnType<typeof createClient> | null = null;
 
-interface CampaignBody {
-  title?: string;
-  tagline?: string;
-  story?: string;
-  category?: string;
-  funding_goal_cents?: number;
-  duration_days?: number;
-  pledge_tiers?: Array<{ name: string; amount_cents: number; description: string }>;
+function getSupabase() {
+  if (!_supabase) {
+    _supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL ?? '',
+      process.env.SUPABASE_SERVICE_ROLE_KEY ?? ''
+    );
+  }
+  return _supabase;
 }
 
 export async function POST(req: NextRequest) {
-  let body: CampaignBody;
+  let body: Record<string, unknown>;
 
   try {
     body = await req.json();
@@ -23,39 +24,32 @@ export async function POST(req: NextRequest) {
 
   const { title, tagline, story, category, funding_goal_cents, duration_days, pledge_tiers } = body;
 
-  if (!title || !category || !funding_goal_cents) {
-    return NextResponse.json({ error: 'title, category, funding_goal_cents required' }, { status: 400 });
+  if (!title || typeof title !== 'string') {
+    return NextResponse.json({ error: 'title is required' }, { status: 400 });
+  }
+  if (!funding_goal_cents || typeof funding_goal_cents !== 'number') {
+    return NextResponse.json({ error: 'funding_goal_cents is required' }, { status: 400 });
   }
 
-  if (!pledge_tiers || pledge_tiers.length < 2) {
-    return NextResponse.json({ error: 'At least 2 pledge tiers required' }, { status: 400 });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await (getSupabase().from('campaigns') as any)
+    .insert({
+      founder_id: '00000000-0000-0000-0000-000000000000',
+      title,
+      description: typeof tagline === 'string' ? tagline : null,
+      story: typeof story === 'string' ? story : null,
+      category: typeof category === 'string' ? category : null,
+      funding_goal_cents,
+      duration_days: typeof duration_days === 'number' ? duration_days : 30,
+      pledge_tiers: Array.isArray(pledge_tiers) ? pledge_tiers : [],
+      status: 'active',
+    })
+    .select('id')
+    .single();
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  try {
-    const res = await fetch(`${PLATFORM}/api/public/campaigns`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        title,
-        tagline: tagline ?? null,
-        description: tagline ?? null,
-        story: story ?? null,
-        category,
-        funding_goal_cents,
-        duration_days: duration_days ?? 30,
-        pledge_tiers,
-        status: 'draft',
-      }),
-    });
-
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      return NextResponse.json({ error: err.message ?? 'Failed to create campaign' }, { status: res.status });
-    }
-
-    const data = await res.json();
-    return NextResponse.json({ id: data.id, message: 'Campaign created' }, { status: 201 });
-  } catch {
-    return NextResponse.json({ error: 'Could not reach platform API' }, { status: 502 });
-  }
+  return NextResponse.json({ id: data.id }, { status: 201 });
 }

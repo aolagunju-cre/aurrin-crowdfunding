@@ -12,6 +12,7 @@
     "@heroui/react": "^3.0.3",
     "@heroui/system": "^2.4.28",
     "@heroui/theme": "^2.4.26",
+    "@supabase/supabase-js": "^2.104.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.38.0",
     "next": "^15.5.0",
