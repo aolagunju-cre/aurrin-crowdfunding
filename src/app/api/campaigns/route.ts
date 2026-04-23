@@ -28,6 +28,6 @@ export async function POST(req: NextRequest) {
     pledge_tiers: Array.isArray(pledge_tiers) ? pledge_tiers : [],
     status: 'active',
   }).select('id').single();
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) return NextResponse.json({ error: error.message, hint: error.hint, details: error.details }, { status: 500 });
   return NextResponse.json({ id: data.id }, { status: 201 });
 }
