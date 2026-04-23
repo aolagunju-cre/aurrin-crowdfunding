@@ -1,14 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+export async function GET() {
+  return NextResponse.json({
+    status: 'ok',
+    message: 'Campaigns API is working',
+    timestamp: new Date().toISOString(),
+  });
+}
+
 export async function POST(req: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!supabaseUrl || !supabaseKey) {
-    return NextResponse.json({ error: 'Supabase not configured' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Supabase env vars not set', supabaseUrl: !!supabaseUrl, supabaseKey: !!supabaseKey },
+      { status: 500 }
+    );
   }
 
-  // Dynamically import to avoid build-time initialization
   const { createClient } = await import('@supabase/supabase-js');
   const supabase = createClient(supabaseUrl, supabaseKey);
 
@@ -46,7 +56,7 @@ export async function POST(req: NextRequest) {
     .single();
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error.message, hint: 'Check if campaigns table exists' }, { status: 500 });
   }
 
   return NextResponse.json({ id: data.id }, { status: 201 });
