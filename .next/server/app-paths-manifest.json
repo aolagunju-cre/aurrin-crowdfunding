@@ -1,7 +1,7 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
-  "/api/campaigns/route": "app/api/campaigns/route.js",
   "/api/donate/route": "app/api/donate/route.js",
+  "/api/campaigns/route": "app/api/campaigns/route.js",
   "/campaigns/[id]/page": "app/campaigns/[id]/page.js",
   "/confirm/[campaignId]/page": "app/confirm/[campaignId]/page.js",
   "/create/page": "app/create/page.js",

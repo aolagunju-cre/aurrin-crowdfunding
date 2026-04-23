@@ -1,19 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-let _supabase: ReturnType<typeof createClient> | null = null;
-
-function getSupabase() {
-  if (!_supabase) {
-    _supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL ?? '',
-      process.env.SUPABASE_SERVICE_ROLE_KEY ?? ''
-    );
-  }
-  return _supabase;
-}
 
 export async function POST(req: NextRequest) {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    return NextResponse.json({ error: 'Supabase not configured' }, { status: 500 });
+  }
+
+  // Dynamically import to avoid build-time initialization
+  const { createClient } = await import('@supabase/supabase-js');
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
   let body: Record<string, unknown>;
 
   try {
@@ -31,8 +29,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'funding_goal_cents is required' }, { status: 400 });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { data, error } = await (getSupabase().from('campaigns') as any)
+  const { data, error } = await supabase
+    .from('campaigns')
     .insert({
       founder_id: '00000000-0000-0000-0000-000000000000',
       title,
@@ -48,7 +46,7 @@ export async function POST(req: NextRequest) {
     .single();
 
   if (error) {
-    return NextResponse.json({ error: error.message, details: error.details }, { status: 500 });
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
   return NextResponse.json({ id: data.id }, { status: 201 });
