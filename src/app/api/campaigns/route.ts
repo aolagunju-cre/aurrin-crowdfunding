@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
       funding_goal_cents,
       duration_days: typeof duration_days === 'number' ? duration_days : 30,
       pledge_tiers: Array.isArray(pledge_tiers) ? pledge_tiers : [],
-      status: 'published',
+      status: 'active',
       published_at: new Date().toISOString(),
     })
     .select('id')
