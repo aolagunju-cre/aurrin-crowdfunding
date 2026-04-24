@@ -24,6 +24,18 @@ function Nav() {
             Browse
           </Link>
           <Link
+            href="/research"
+            className="text-slate-500 hover:text-slate-900 transition-colors text-sm px-1 py-1"
+          >
+            Research
+          </Link>
+          <Link
+            href="/judges"
+            className="text-slate-500 hover:text-slate-900 transition-colors text-sm px-1 py-1"
+          >
+            Judges
+          </Link>
+          <Link
             href="/create"
             className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-slate-900 text-white text-xs sm:text-sm font-semibold hover:bg-slate-700 transition-colors whitespace-nowrap"
           >
