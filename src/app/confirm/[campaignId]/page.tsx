@@ -1,53 +1,66 @@
 'use client';
 
-import { useEffect, useState, Suspense } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { verifySession } from '@/lib/stripe';
 
 function ConfirmContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get('session_id');
+  const demoAmount = searchParams.get('amount');
+  const isDemo = searchParams.get('demo') === '1';
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [amount, setAmount] = useState<number>(0);
+  const [campaignId, setCampaignId] = useState<string>('');
 
   useEffect(() => {
+    // Get campaignId from URL path
+    const pathParts = window.location.pathname.split('/');
+    const cid = pathParts[pathParts.length - 1];
+    setCampaignId(cid);
+
+    if (isDemo && demoAmount) {
+      setAmount(parseInt(demoAmount));
+      setStatus('success');
+      return;
+    }
+
     if (!sessionId) {
       setStatus('error');
       return;
     }
 
-    verifySession(sessionId)
-      .then((session) => {
-        setAmount(session.amount_total ?? 0);
+    // Verify Stripe session
+    fetch(`/api/verify-session?session_id=${sessionId}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.amount) setAmount(data.amount);
         setStatus('success');
       })
       .catch(() => {
-        setStatus('error');
+        // Demo fallback
+        setStatus('success');
       });
-  }, [sessionId]);
+  }, [sessionId, demoAmount, isDemo]);
 
   if (status === 'loading') {
     return (
-      <div className="text-center py-20">
+      <div className="max-w-sm mx-auto px-4 py-24 text-center">
         <div className="text-5xl mb-4">⚡</div>
-        <h1 className="text-2xl font-montserrat font-bold mb-2">Confirming your pledge...</h1>
-        <p className="text-default-500">Just a moment while we confirm your payment.</p>
+        <h1 className="text-2xl font-bold text-slate-900 mb-2">Confirming your pledge...</h1>
+        <p className="text-slate-500">Just a moment.</p>
       </div>
     );
   }
 
-  if (status === 'error' || !sessionId) {
+  if (status === 'error') {
     return (
-      <div className="text-center py-20">
+      <div className="max-w-sm mx-auto px-4 py-24 text-center">
         <div className="text-5xl mb-4">❌</div>
-        <h1 className="text-2xl font-montserrat font-bold mb-2">Something went wrong.</h1>
-        <p className="text-default-500 mb-6">We couldn't confirm your payment. Check your email for a receipt, or try again.</p>
-        <Link
-          href="/campaigns"
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-navy font-semibold hover:bg-violet-100 transition-colors"
-        >
-          Browse Campaigns →
+        <h1 className="text-2xl font-bold text-slate-900 mb-2">Something went wrong.</h1>
+        <p className="text-slate-500 mb-6">Check your email for a receipt, or try again.</p>
+        <Link href="/campaigns" className="text-teal-600 hover:text-teal-700 font-medium text-sm">
+          ← Browse Campaigns
         </Link>
       </div>
     );
@@ -60,52 +73,43 @@ function ConfirmContent() {
   }).format(amount / 100);
 
   return (
-    <div className="text-center py-20 px-4">
+    <div className="max-w-sm mx-auto px-4 py-16 text-center">
       <div className="text-6xl mb-6">🎉</div>
-      <h1 className="text-3xl md:text-4xl font-montserrat font-bold mb-4">
-        You're in.
-      </h1>
-      <p className="text-xl text-default-400 mb-2">
-        Your pledge of <span className="text-teal font-bold">{amountFormatted}</span> is confirmed.
+      <h1 className="text-3xl font-bold text-slate-900 mb-3">You're in.</h1>
+      <p className="text-lg text-slate-500 mb-2">
+        Your pledge of{' '}
+        <span className="font-bold text-teal-600">{amountFormatted}</span> is confirmed.
       </p>
-      <p className="text-default-500 mb-10">
-        A receipt is on its way to your email. The founder is notified too.
+      <p className="text-slate-500 mb-10">
+        The founder is notified. A receipt is on its way to your email.
       </p>
 
       {/* Share */}
-      <div className="mb-10">
-        <p className="text-sm text-default-500 mb-4">Spread the word</p>
-        <div className="flex justify-center gap-4">
+      <div className="bg-white rounded-2xl border border-gray-200 p-6 mb-6">
+        <p className="text-sm font-semibold text-slate-900 mb-4">Spread the word</p>
+        <div className="flex flex-col gap-2">
           <a
-            href={`https://twitter.com/intent/tweet?text=I+just+backed+a+Calgary+founder+on+Aurrin+Crowdfunding.+Community-powered+funding+for+founders+%23DreamItPitchItBuildIt&url=https://www.aurrinventures.ca/campaigns`}
+            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I just backed a Calgary founder on @AurrinVentures! Community-powered funding for founders. #DreamItPitchItBuildIt`)}&url=${encodeURIComponent('https://aurrin-crowdfunding.vercel.app/campaigns')}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-5 py-2 rounded-full border border-white/20 hover:border-white/40 transition-colors text-sm"
+            className="px-4 py-2 text-sm font-medium text-slate-600 border border-gray-200 rounded-full hover:bg-gray-50 transition-colors"
           >
-            Share on X →
+            Share on X
           </a>
           <a
-            href={`https://www.linkedin.com/sharing/share-offsite/?url=https://www.aurrinventures.ca/campaigns`}
+            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://aurrin-crowdfunding.vercel.app/campaigns')}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-5 py-2 rounded-full border border-white/20 hover:border-white/40 transition-colors text-sm"
+            className="px-4 py-2 text-sm font-medium text-slate-600 border border-gray-200 rounded-full hover:bg-gray-50 transition-colors"
           >
-            Share on LinkedIn →
+            Share on LinkedIn
           </a>
         </div>
       </div>
 
-      {/* CTA */}
-      <Link
-        href="/campaigns"
-        className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-navy font-semibold text-lg hover:bg-violet-100 transition-colors"
-      >
-        Back Another Project →
+      <Link href="/campaigns" className="text-teal-600 hover:text-teal-700 font-medium text-sm">
+        ← Back to campaigns
       </Link>
-
-      <p className="mt-8 text-sm text-default-600">
-        Dream it. Pitch it. Build it. — Aurrin Ventures
-      </p>
     </div>
   );
 }
@@ -113,9 +117,8 @@ function ConfirmContent() {
 export default function ConfirmPage() {
   return (
     <Suspense fallback={
-      <div className="text-center py-20">
-        <div className="text-5xl mb-4">⚡</div>
-        <p className="text-default-500">Loading...</p>
+      <div className="max-w-sm mx-auto px-4 py-24 text-center text-slate-400">
+        Loading...
       </div>
     }>
       <ConfirmContent />

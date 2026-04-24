@@ -40,7 +40,7 @@ export function PledgeTierSelector({
       const res = await fetch(`/api/donate/${campaignId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount_cents: amount }),
+        body: JSON.stringify({ amount_cents: amount, campaignTitle }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed');
