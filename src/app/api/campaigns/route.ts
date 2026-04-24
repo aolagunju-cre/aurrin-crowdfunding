@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid JSON', received: rawBody.substring(0, 100) }, { status: 400 });
   }
 
-  const { title, tagline, story, category, funding_goal_cents, duration_days, pledge_tiers } = body;
+  const { title, description, story, category, funding_goal_cents, duration_days, pledge_tiers } = body;
 
   if (!title || typeof title !== 'string') {
     return NextResponse.json({ error: 'title is required', received: { title, fg: funding_goal_cents } }, { status: 400 });
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
     .insert({
       founder_id: '00000000-0000-0000-0000-000000000000',
       title,
-      description: typeof tagline === 'string' ? tagline : null,
+      description: typeof description === 'string' ? description : null,
       story: typeof story === 'string' ? story : null,
       category: typeof category === 'string' ? category : null,
       funding_goal_cents,
@@ -43,7 +43,6 @@ export async function POST(req: NextRequest) {
       duration_days: typeof duration_days === 'number' ? duration_days : 30,
       pledge_tiers: Array.isArray(pledge_tiers) ? pledge_tiers : [],
       status: 'active',
-      published_at: new Date().toISOString(),
     })
     .select('id')
     .single();

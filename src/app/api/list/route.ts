@@ -9,7 +9,7 @@ const supabase = createClient(
 export async function GET() {
   const { data, error } = await supabase
     .from('campaigns')
-    .select('id, title, description, tagline, category, funding_goal_cents, amount_raised_cents, pledge_tiers, status, created_at')
+    .select('id, title, description, story, category, funding_goal_cents, amount_raised_cents, pledge_tiers, status, created_at')
     .eq('status', 'active')
     .order('created_at', { ascending: false })
     .limit(20);
@@ -19,7 +19,7 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  const { title, tagline, story, category, funding_goal_cents, duration_days, pledge_tiers } = await req.json();
+  const { title, description, story, category, funding_goal_cents, duration_days, pledge_tiers } = await req.json();
   if (!title || !funding_goal_cents) return NextResponse.json({ error: 'title and funding_goal_cents required' }, { status: 400 });
 
   const { data, error } = await supabase
@@ -27,7 +27,7 @@ export async function POST(req: Request) {
     .insert({
       founder_id: '00000000-0000-0000-0000-000000000000',
       title,
-      description: typeof tagline === 'string' ? tagline : null,
+      description: typeof description === 'string' ? description : null,
       story: typeof story === 'string' ? story : null,
       category: typeof category === 'string' ? category : null,
       funding_goal_cents,

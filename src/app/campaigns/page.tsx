@@ -6,7 +6,6 @@ import Link from 'next/link';
 interface Campaign {
   id: string;
   title: string;
-  tagline?: string;
   category: string;
   funding_goal_cents: number;
   amount_raised_cents?: number;
@@ -70,7 +69,6 @@ export default function CampaignsPage() {
                     <p className="text-xs text-teal-600 uppercase tracking-widest font-semibold">{c.category}</p>
                   )}
                   <h3 className="text-lg font-bold text-slate-900">{c.title}</h3>
-                  {c.tagline && <p className="text-sm text-slate-500">{c.tagline}</p>}
 
                   <div>
                     <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
@@ -78,7 +76,8 @@ export default function CampaignsPage() {
                         className="h-full rounded-full bg-gradient-to-r from-violet-600 to-teal-500"
                         style={{ width: `${Math.min(pct, 100)}%` }}
                       />
-                    </div                    <p className="text-xs text-gray-400 mt-1">
+                    </div>
+                    <p className="text-xs text-gray-400 mt-1">
                       ${(raised / 100).toLocaleString('en-CA', { minimumFractionDigits: 0 })} raised · {pct}% of ${(goal / 100).toLocaleString('en-CA', { minimumFractionDigits: 0 })} goal
                     </p>
                   </div>
