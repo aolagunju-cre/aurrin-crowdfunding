@@ -18,58 +18,22 @@ interface Judge {
 
 const APRIL_29_JUDGES: Judge[] = [
   {
-    name: 'Siva Sam',
-    role: 'Founder',
-    company: 'Refreshed',
-    bio: 'Early-stage investor and founder building in the Calgary tech ecosystem.',
-    linkedin: 'https://www.linkedin.com/in/siva-sam-refreshed/',
-    initials: 'SS',
+    name: 'Shubham Garg',
+    role: 'Chairman',
+    company: 'Prospera Energy',
+    bio: 'Leading Prospera Energy with a focus on energy innovation and sustainable growth across Western Canada.',
+    linkedin: 'https://www.linkedin.com/in/shubham-garg/',
+    initials: 'SG',
     color: 'bg-violet-600',
   },
   {
-    name: 'Roxanne Molnar',
-    role: 'Founder',
-    company: 'Roxanne Molnar Consulting',
-    bio: 'Startup operator and ecosystem builder focused on Calgary founders.',
-    linkedin: 'https://www.linkedin.com/in/roxoanne-molnar/',
-    initials: 'RM',
+    name: 'Siva Sam',
+    role: 'President',
+    company: 'USXI Group',
+    bio: 'President of USXI Group, active judge and mentor for early-stage founders in the Calgary ecosystem.',
+    linkedin: 'https://www.linkedin.com/in/siva-sam-refreshed/',
+    initials: 'SS',
     color: 'bg-teal-600',
-  },
-  {
-    name: 'Henry Huynh',
-    role: 'Angel Investor',
-    company: 'Independent',
-    bio: 'Active angel investor in early-stage tech and energy startups across Western Canada.',
-    linkedin: 'https://www.linkedin.com/in/henry-huynh/',
-    initials: 'HH',
-    color: 'bg-amber-600',
-  },
-  {
-    name: 'Ammar Al-Aghbari',
-    role: 'Founder',
-    company: 'Calgary Tech Hub',
-    bio: 'Building the connective tissue of Calgary\'s tech community.',
-    linkedin: 'https://www.linkedin.com/in/ammar-alaghbari/',
-    initials: 'AA',
-    color: 'bg-rose-600',
-  },
-  {
-    name: 'Natalie Pang',
-    role: 'Product Lead',
-    company: 'Tech Calgary',
-    bio: 'Product and strategy leader working at the intersection of tech and community.',
-    linkedin: 'https://www.linkedin.com/in/natalie-pang/',
-    initials: 'NP',
-    color: 'bg-indigo-600',
-  },
-  {
-    name: 'Shubham Garg',
-    role: 'Investor',
-    company: 'Eclipse RegTech Ventures',
-    bio: 'Investing in regulatory technology and energy innovation.',
-    linkedin: 'https://www.linkedin.com/in/shubham-garg/',
-    initials: 'SG',
-    color: 'bg-emerald-600',
   },
   {
     name: 'Jana McDonald',
@@ -78,7 +42,7 @@ const APRIL_29_JUDGES: Judge[] = [
     bio: 'Business strategist and mentor helping early-stage founders find product-market fit.',
     linkedin: 'https://www.linkedin.com/in/jana-mcdonald/',
     initials: 'JM',
-    color: 'bg-cyan-600',
+    color: 'bg-amber-600',
   },
 ];
 
@@ -116,7 +80,7 @@ export default function JudgesPage() {
         <p className="text-sm font-medium uppercase tracking-widest text-teal-600 mb-3">Energy Pitch Night</p>
         <h1 className="text-3xl font-bold text-slate-900">Meet the Judges</h1>
         <p className="text-slate-500 mt-2 max-w-md mx-auto">
-          Seven investors, operators, and founders evaluating the next wave of energy innovation in Calgary.
+          Three leaders evaluating the next wave of energy innovation in Calgary.
         </p>
       </div>
 

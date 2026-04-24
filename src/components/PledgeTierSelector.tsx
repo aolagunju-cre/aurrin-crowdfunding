@@ -1,113 +1,160 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import type { PledgeTier } from '@/lib/campaigns';
 
-interface Props {
+interface PledgeTier {
+  name: string;
+  amount_cents: number;
+  description: string;
+}
+
+interface PledgeTierSelectorProps {
   campaignId: string;
   campaignTitle: string;
   pledgeTiers: PledgeTier[];
+  onPledge?: (tier: PledgeTier) => void;
 }
 
-export function PledgeTierSelector({ campaignId, campaignTitle, pledgeTiers }: Props) {
-  const router = useRouter();
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+export function PledgeTierSelector({
+  campaignId,
+  campaignTitle,
+  pledgeTiers,
+  onPledge,
+}: PledgeTierSelectorProps) {
+  const [selectedTier, setSelectedTier] = useState<PledgeTier | null>(
+    pledgeTiers[0] || null
+  );
+  const [customAmount, setCustomAmount] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function handleDonate() {
-    if (selectedIndex === null) {
-      setError('Please select a pledge level first.');
+  async function handlePledge() {
+    const amount = selectedTier?.amount_cents || parseInt(customAmount) * 100;
+    if (!amount || amount <= 0) {
+      setError('Please select or enter a valid amount.');
       return;
     }
-    setError(null);
     setLoading(true);
-
+    setError(null);
     try {
-      const tier = pledgeTiers[selectedIndex];
-      const res = await fetch('/api/donate', {
+      const res = await fetch(`/api/donate/${campaignId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          campaignId,
-          tierIndex: selectedIndex,
-          tierAmountCents: tier.amount_cents,
-          campaignTitle,
-        }),
+        body: JSON.stringify({ amount_cents: amount }),
       });
-
-      if (!res.ok) throw new Error('Failed to create checkout session');
-      const { url } = await res.json();
-      window.location.href = url;
-    } catch {
-      setError('Something went wrong. Please try again.');
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed');
+      if (data.url) {
+        window.location.href = data.url; // Stripe Checkout redirect
+      } else {
+        // Demo mode — redirect to confirm page
+        window.location.href = `/confirm/${campaignId}?amount=${amount}`;
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong');
       setLoading(false);
     }
   }
 
-  if (pledgeTiers.length === 0) {
+  if (!pledgeTiers.length) {
     return (
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-        <p className="text-default-500 text-sm">No pledge tiers available yet.</p>
+      <div className="bg-white rounded-2xl border border-gray-200 p-6">
+        <p className="text-sm text-slate-500">No pledge tiers available.</p>
       </div>
     );
   }
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-6 space-y-4">
-      <h3 className="font-montserrat font-bold text-lg">Choose Your Pledge</h3>
+    <div className="bg-white rounded-2xl border border-gray-200 p-6 space-y-4">
+      <h3 className="font-bold text-slate-900">Back this campaign</h3>
 
-      <div className="space-y-3">
+      {/* Tier selection */}
+      <div className="space-y-2">
         {pledgeTiers.map((tier, i) => (
           <label
             key={i}
             className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all ${
-              selectedIndex === i
-                ? 'border-violet bg-violet/10'
-                : 'border-white/10 hover:border-white/30'
+              selectedTier === tier
+                ? 'border-violet-500 bg-violet-50'
+                : 'border-gray-200 hover:border-gray-300'
             }`}
           >
             <input
               type="radio"
               name="tier"
-              checked={selectedIndex === i}
-              onChange={() => setSelectedIndex(i)}
-              className="mt-1 accent-violet"
+              checked={selectedTier === tier}
+              onChange={() => setSelectedTier(tier)}
+              className="mt-1"
             />
             <div className="flex-1">
-              <div className="flex justify-between items-start">
-                <span className="font-semibold">{tier.name}</span>
-                <span className="font-montserrat font-bold text-teal">
-                  {new Intl.NumberFormat('en-CA', {
-                    style: 'currency',
-                    currency: 'CAD',
-                    minimumFractionDigits: 0,
-                  }).format(tier.amount_cents / 100)}
+              <div className="flex justify-between items-center">
+                <span className="font-semibold text-slate-900">{tier.name}</span>
+                <span className="font-bold text-teal-600">
+                  ${(tier.amount_cents / 100).toLocaleString('en-CA')}
                 </span>
               </div>
               {tier.description && (
-                <p className="text-sm text-default-400 mt-1">{tier.description}</p>
+                <p className="text-sm text-slate-500 mt-1">{tier.description}</p>
+              )}
+              {selectedTier === tier && i === 0 && (
+                <p className="text-xs text-violet-600 font-medium mt-1">🎁 Early backer — first 5 get this tier!</p>
               )}
             </div>
           </label>
         ))}
       </div>
 
-      {error && (
-        <p className="text-red-400 text-sm">{error}</p>
-      )}
+      {/* Custom amount */}
+      <div className="flex gap-2 items-center">
+        <span className="text-slate-500 font-medium">$</span>
+        <input
+          type="number"
+          min="1"
+          placeholder="Custom amount"
+          value={customAmount}
+          onChange={(e) => {
+            setCustomAmount(e.target.value);
+            setSelectedTier(null);
+          }}
+          className="flex-1 px-3 py-2 rounded-lg border border-gray-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500"
+        />
+      </div>
 
+      {/* CTA */}
       <button
-        onClick={handleDonate}
-        disabled={loading || selectedIndex === null}
-        className="w-full py-3 rounded-full bg-white text-navy font-bold text-lg hover:bg-violet-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        onClick={handlePledge}
+        disabled={loading}
+        className="w-full py-3 rounded-full bg-slate-900 text-white font-semibold hover:bg-slate-700 transition-colors disabled:opacity-50"
       >
-        {loading ? 'Loading...' : 'Back This Project →'}
+        {loading ? 'Redirecting...' : `Back for $${selectedTier ? (selectedTier.amount_cents / 100).toLocaleString('en-CA') : customAmount || '—'}`}
       </button>
 
-      <p className="text-xs text-center text-default-600">
-        Secure payment via Stripe. CAD only.
+      {/* Share */}
+      <div className="flex gap-2">
+        <a
+          href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`${process.env.NEXT_PUBLIC_SITE_URL || 'https://aurrin-crowdfunding.vercel.app'}/campaigns/${campaignId}`)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex-1 py-2 text-center text-xs font-medium text-slate-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+        >
+          Share on LinkedIn
+        </a>
+        <a
+          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`I just backed "${campaignTitle}" on @AurrinVentures! `)}&url=${encodeURIComponent(`${process.env.NEXT_PUBLIC_SITE_URL || 'https://aurrin-crowdfunding.vercel.app'}/campaigns/${campaignId}`)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex-1 py-2 text-center text-xs font-medium text-slate-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+        >
+          Share on X
+        </a>
+      </div>
+
+      {error && (
+        <p className="text-sm text-red-500">{error}</p>
+      )}
+
+      <p className="text-xs text-slate-400 text-center">
+        Powered by Aurrin Ventures · Secure payment
       </p>
     </div>
   );

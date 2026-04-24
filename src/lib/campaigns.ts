@@ -1,5 +1,3 @@
-// ─── Types ────────────────────────────────────────────────────────────────────
-
 export interface PledgeTier {
   name: string;
   amount_cents: number;
@@ -11,58 +9,49 @@ export interface Campaign {
   title: string;
   description: string | null;
   story: string | null;
+  category: string;
   funding_goal_cents: number;
   amount_raised_cents: number;
   donor_count: number;
-  status: 'active' | 'funded';
+  status: string;
   pledge_tiers: PledgeTier[];
-  donations: Donation[];
-  founder_name?: string;
-  company_name?: string;
+  created_at: string;
+  updated_at?: string;
 }
 
 export interface Donation {
   id: string;
   donor_name: string;
   amount_cents: number;
+  is_anonymous: boolean;
   created_at: string;
 }
 
-// ─── API Base ────────────────────────────────────────────────────────────────
-
-const PLATFORM_BASE = process.env.NEXT_PUBLIC_PLATFORM_API_URL ?? 'https://aurrin-platform.vercel.app';
-
-// ─── Fetch Campaigns (public listing) ───────────────────────────────────────
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://aurrin-crowdfunding.vercel.app';
 
 export async function listCampaigns(): Promise<Campaign[]> {
   try {
-    const res = await fetch(`${PLATFORM_BASE}/api/public/campaigns`, {
-      cache: 'no-store',
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const res = await fetch(`${SITE_URL}/api/list`, { cache: 'no-store' });
+    if (!res.ok) return [];
     const json = await res.json();
-    return json.data ?? [];
+    const campaigns: Campaign[] = json.campaigns ?? json ?? [];
+    return campaigns;
   } catch {
     return [];
   }
 }
 
-// ─── Fetch Single Campaign ────────────────────────────────────────────────────
-
 export async function getCampaign(id: string): Promise<Campaign | null> {
   try {
-    const res = await fetch(`${PLATFORM_BASE}/api/public/campaigns/${id}`, {
-      cache: 'no-store',
-    });
-    if (!res.ok || res.status === 404) return null;
+    const res = await fetch(`${SITE_URL}/api/list`, { cache: 'no-store' });
+    if (!res.ok) return null;
     const json = await res.json();
-    return json.data ?? null;
+    const campaigns: Campaign[] = json.campaigns ?? json ?? [];
+    return campaigns.find((c) => c.id === id) ?? null;
   } catch {
     return null;
   }
 }
-
-// ─── Helpers ─────────────────────────────────────────────────────────────────
 
 export function formatCurrency(cents: number): string {
   return new Intl.NumberFormat('en-CA', {
@@ -76,10 +65,4 @@ export function formatCurrency(cents: number): string {
 export function fundingPercent(raised: number, goal: number): number {
   if (goal === 0) return 0;
   return Math.min(100, Math.round((raised / goal) * 100));
-}
-
-export function daysRemaining(endDate?: string | null): number | null {
-  if (!endDate) return null;
-  const diff = new Date(endDate).getTime() - Date.now();
-  return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
 }
