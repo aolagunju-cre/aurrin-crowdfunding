@@ -10,7 +10,7 @@ export async function GET() {
   const { data, error } = await supabase
     .from('campaigns')
     .select('id, title, description, tagline, category, funding_goal_cents, amount_raised_cents, pledge_tiers, status, created_at')
-    .eq('status', 'published')
+    .eq('status', 'active')
     .order('created_at', { ascending: false })
     .limit(20);
 
