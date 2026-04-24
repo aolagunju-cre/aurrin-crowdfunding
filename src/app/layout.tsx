@@ -24,6 +24,18 @@ function Nav() {
             Browse
           </Link>
           <Link
+            href="/validate"
+            className="text-slate-500 hover:text-slate-900 transition-colors text-sm px-1 py-1"
+          >
+            Validate
+          </Link>
+          <Link
+            href="/database"
+            className="text-slate-500 hover:text-slate-900 transition-colors text-sm px-1 py-1"
+          >
+            Database
+          </Link>
+          <Link
             href="/research"
             className="text-slate-500 hover:text-slate-900 transition-colors text-sm px-1 py-1"
           >

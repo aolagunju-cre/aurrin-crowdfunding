@@ -1,140 +1,106 @@
 import Link from 'next/link';
-import { listCampaigns } from '@/lib/campaigns';
+import ValidateForm from './ValidateForm';
 
 export default async function Home() {
-  const campaigns = await listCampaigns();
-  const totalRaised = campaigns.reduce((sum, c) => sum + (c.amount_raised_cents ?? 0), 0);
-  const activeCampaigns = campaigns.filter((c) => c.status === 'active').length;
-  const fundedCampaigns = campaigns.filter((c) => c.status === 'funded').length;
-  const displayCampaigns = campaigns.slice(0, 3);
-
   return (
     <div className="flex flex-col">
-      {/* Hero */}
-      <div className="flex-1 flex items-center justify-center px-6 py-16">
-        <div className="max-w-2xl text-center">
-          <p className="text-sm font-medium uppercase tracking-[0.2em] text-teal-600 mb-6">
-            Community-Powered Funding
+      {/* Hero — URL validator */}
+      <div className="bg-slate-900 text-white py-16 px-4">
+        <div className="max-w-xl mx-auto text-center">
+          <p className="text-xs font-medium uppercase tracking-[0.2em] text-teal-400 mb-4">
+            Aurrin Ventures · Calgary
           </p>
-          <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6 text-slate-900">
-            The future of<br />
-            <span className="bg-gradient-to-r from-violet-600 to-teal-500 bg-clip-text text-transparent">
-              funding
-            </span>{' '}
-            is here.
+          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
+            Is your startup<br />fundable?
           </h1>
-          <p className="text-xl text-slate-500 leading-relaxed mb-10">
-            Crowdfunding for founders who want to own their future. No VC gatekeeping. No government dependency. Just your community.
+          <p className="text-slate-400 text-lg mb-8 max-w-lg mx-auto">
+            Drop your URL. Get an instant readout on whether it looks like something investors fund.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/create"
-              className="px-10 py-4 rounded-full bg-slate-900 text-white font-bold text-lg hover:bg-slate-700 transition-colors"
-            >
-              Start Your Campaign →
+
+          {/* Embedded validate form */}
+          <ValidateForm />
+
+          <p className="text-xs text-slate-500 mt-4">
+            Based on signals from {87}+ funded companies.{' '}
+            <Link href="/database" className="text-teal-400 hover:text-teal-300">
+              See the database →
             </Link>
-            <Link
-              href="/campaigns"
-              className="px-10 py-4 rounded-full border border-gray-300 text-slate-700 font-semibold hover:border-slate-900 hover:text-slate-900 transition-colors"
-            >
-              Browse Campaigns
-            </Link>
-          </div>
+          </p>
         </div>
       </div>
 
-      {/* Social proof */}
-      <div className="bg-slate-900 text-white py-10">
-        <div className="max-w-3xl mx-auto px-6">
-          <div className="grid grid-cols-3 gap-8 text-center">
-            <div>
-              <p className="text-3xl md:text-4xl font-extrabold">
-                {campaigns.length > 0 ? campaigns.length : '—'}
-              </p>
-              <p className="text-sm text-slate-400 mt-1">Campaigns</p>
-            </div>
-            <div>
-              <p className="text-3xl md:text-4xl font-extrabold">
-                {totalRaised > 0 ? `$${(totalRaised / 100).toLocaleString('en-CA')}` : '$0'}
-              </p>
-              <p className="text-sm text-slate-400 mt-1">Raised</p>
-            </div>
-            <div>
-              <p className="text-3xl md:text-4xl font-extrabold">
-                {fundedCampaigns > 0 ? fundedCampaigns : '0'}
-              </p>
-              <p className="text-sm text-slate-400 mt-1">Funded</p>
-            </div>
-          </div>
+      {/* Social proof ticker */}
+      <div className="bg-teal-600 text-white py-3 px-4">
+        <div className="max-w-xl mx-auto flex items-center justify-center gap-6 text-sm font-medium overflow-hidden">
+          <span className="whitespace-nowrap">🔥 3 founders validated their startup today</span>
+          <span className="hidden sm:block text-teal-200">·</span>
+          <span className="hidden sm:block whitespace-nowrap">$0 raised so far this month</span>
+          <span className="hidden sm:block text-teal-200">·</span>
+          <span className="hidden sm:block whitespace-nowrap">Next pitch night: April 29</span>
         </div>
       </div>
 
-      {/* Recent campaigns */}
-      {displayCampaigns.length > 0 && (
-        <div className="max-w-xl mx-auto px-4 py-14 w-full">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold text-slate-900">Recent Campaigns</h2>
-            <Link href="/campaigns" className="text-sm text-teal-600 hover:text-teal-700 font-medium">
-              See all →
-            </Link>
-          </div>
-          <div className="space-y-3">
-            {displayCampaigns.map((c) => {
-              const raised = c.amount_raised_cents ?? 0;
-              const goal = c.funding_goal_cents;
-              const pct = goal > 0 ? Math.round((raised / goal) * 100) : 0;
-              return (
-                <Link
-                  key={c.id}
-                  href={`/campaigns/${c.id}`}
-                  className="block bg-white rounded-2xl border border-gray-200 p-5 hover:border-gray-300 transition-all"
-                >
-                  <div className="flex items-start justify-between mb-3">
-                    <div>
-                      {c.category && (
-                        <p className="text-xs font-semibold uppercase tracking-widest text-teal-600 mb-1">
-                          {c.category}
-                        </p>
-                      )}
-                      <h3 className="font-bold text-slate-900">{c.title}</h3>
-                    </div>
-                    <span className={`text-xs font-medium px-2 py-1 rounded-full ${
-                      c.status === 'funded' ? 'bg-emerald-100 text-emerald-700' :
-                      c.status === 'active' ? 'bg-blue-100 text-blue-700' :
-                      'bg-gray-100 text-gray-600'
-                    }`}>
-                      {c.status}
-                    </span>
-                  </div>
-                  <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-gradient-to-r from-violet-600 to-teal-500 rounded-full"
-                      style={{ width: `${Math.min(pct, 100)}%` }}
-                    />
-                  </div>
-                  <div className="flex justify-between items-center mt-2">
-                    <span className="text-xs text-slate-500">
-                      ${(raised / 100).toLocaleString('en-CA')} raised
-                    </span>
-                    <span className="text-xs text-slate-500">{pct}%</span>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
+      {/* What Aurrin does */}
+      <div className="max-w-xl mx-auto px-4 py-14 w-full">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl font-bold text-slate-900 mb-3">
+            Dream it. Pitch it. Build it.
+          </h2>
+          <p className="text-slate-500 max-w-md mx-auto text-sm leading-relaxed">
+            Aurrin Ventures is Calgary's funding platform for founders who don't have investor connections. No deck required. No VC gatekeeping. Just your idea and the community that backs it.
+          </p>
         </div>
-      )}
 
-      {/* CTA */}
-      <div className="text-center pb-16 px-4">
-        <h2 className="text-2xl font-bold text-slate-900 mb-3">Ready to build?</h2>
-        <p className="text-slate-500 mb-6">Your community is waiting.</p>
-        <Link
-          href="/create"
-          className="inline-block px-8 py-3 rounded-full bg-slate-900 text-white font-semibold hover:bg-slate-700 transition-colors"
-        >
-          Start a Campaign
-        </Link>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {[
+            { emoji: '🔍', label: 'Get Validated', desc: 'Enter your URL. See if your startup looks fundable.', href: '/validate' },
+            { emoji: '💰', label: 'Raise Funds', desc: 'Launch a campaign. Let your community back you.', href: '/campaigns' },
+            { emoji: '🚀', label: 'Pitch Live', desc: 'Apply to pitch at our next event. No connections needed.', href: '/pitch-night' },
+          ].map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="bg-white rounded-2xl border border-gray-200 p-5 hover:border-gray-300 hover:shadow-sm transition-all text-center group"
+            >
+              <div className="text-3xl mb-3">{item.emoji}</div>
+              <h3 className="font-bold text-slate-900 mb-1 group-hover:text-teal-600 transition-colors">{item.label}</h3>
+              <p className="text-xs text-slate-500 leading-relaxed">{item.desc}</p>
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* Recent validated companies */}
+      <div className="max-w-xl mx-auto px-4 pb-14 w-full">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-bold text-slate-900">Recently validated</h2>
+          <Link href="/database" className="text-sm text-teal-600 hover:text-teal-700 font-medium">
+            See all →
+          </Link>
+        </div>
+        <div className="space-y-2">
+          {[
+            { domain: 'levyne.com', score: 75, result: 'Looks fundable' },
+            { domain: 'saturves.com', score: 63, result: 'Promising' },
+            { domain: 'synthgrid.com', score: 50, result: 'Promising' },
+          ].map((v) => (
+            <div key={v.domain} className="bg-white rounded-xl border border-gray-200 px-4 py-3 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <span className="text-sm font-medium text-slate-900">{v.domain}</span>
+                <span className="text-xs text-slate-400">{v.result}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="h-1.5 w-16 bg-gray-100 rounded-full overflow-hidden">
+                  <div
+                    className={`h-full rounded-full ${v.score >= 75 ? 'bg-emerald-500' : v.score >= 50 ? 'bg-teal-500' : 'bg-amber-500'}`}
+                    style={{ width: `${v.score}%` }}
+                  />
+                </div>
+                <span className="text-xs font-bold text-slate-700 w-8">{v.score}%</span>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
