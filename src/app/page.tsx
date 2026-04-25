@@ -4,19 +4,13 @@ import ValidateForm from './ValidateForm';
 export default async function Home() {
   return (
     <div className="flex flex-col">
-      {/* Hero — gradient background, bold headline */}
+      {/* Hero — gradient background */}
       <div
         className="relative overflow-hidden"
-        style="background: linear-gradient(135deg, #b249f8 0%, #FF1CF7 100%);"
+        style={{ background: 'linear-gradient(135deg, #b249f8 0%, #FF1CF7 100%)' }}
       >
-        {/* Noise texture */}
-        <div
-          className="absolute inset-0"
-          style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 256 256%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%224%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22 opacity=%220.08%22/%3E%3C/svg%3E'); background-repeat: repeat;"
-        />
-
         <div className="relative max-w-xl mx-auto px-4 py-16 text-center">
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-white/70 mb-4">
+          <p className="text-xs font-medium uppercase tracking-widest text-white/70 mb-4">
             Calgary&apos;s Funding Platform
           </p>
           <h1 className="text-4xl md:text-5xl font-black leading-tight text-white mb-4">
@@ -32,7 +26,7 @@ export default async function Home() {
           </div>
 
           <p className="text-xs text-white/50 mt-4">
-            Based on signals from {87}+ funded companies.{' '}
+            Based on signals from 87+ funded companies.{' '}
             <Link href="/database" className="text-white/70 hover:text-white font-medium underline">
               See the database →
             </Link>
@@ -64,7 +58,7 @@ export default async function Home() {
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
-            { emoji: '📅', label: 'Browse Events', desc: 'Judges, contestants, and what&apos;s coming up.', href: '/events' },
+            { emoji: '📅', label: 'Browse Events', desc: 'Judges, contestants, and what&apos;s coming up.', href: '/events/april-2026' },
             { emoji: '💰', label: 'Raise Funds', desc: 'Launch a campaign. Let your community back you.', href: '/campaigns' },
             { emoji: '🚀', label: 'Pitch Live', desc: 'Apply to pitch at our next event. No connections needed.', href: '/pitch-night' },
           ].map((item) => (
@@ -84,7 +78,7 @@ export default async function Home() {
       {/* CTA Banner */}
       <div
         className="py-12 px-4 text-center"
-        style="background: linear-gradient(135deg, #b249f8 0%, #FF1CF7 100%);"
+        style={{ background: 'linear-gradient(135deg, #b249f8 0%, #FF1CF7 100%)' }}
       >
         <div className="max-w-xl mx-auto">
           <h2 className="text-2xl font-bold text-white mb-2">Ready to pitch?</h2>
