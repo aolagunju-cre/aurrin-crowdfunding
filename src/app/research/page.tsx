@@ -53,7 +53,7 @@ function FundingChart({ campaigns }: { campaigns: Campaign[] }) {
               <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
                 <div className="h-full bg-slate-200 rounded-full" style={{ width: `${goalPct}%` }} />
                 <div
-                  className="h-full bg-teal-500 rounded-full -mt-2"
+                  className="h-full bg-violet-600 rounded-full -mt-2"
                   style={{ width: `${raisedPct}%`, opacity: 0.7 }}
                 />
               </div>
@@ -101,14 +101,14 @@ function SubscriptionGate() {
         <p className="text-3xl font-extrabold text-slate-900 mb-1">$0 <span className="text-base font-normal text-slate-500">/ month</span></p>
         <p className="text-xs text-slate-400 mb-6">Early access — pricing coming soon</p>
         <button
-          className="w-full py-3 rounded-full bg-slate-900 text-white font-semibold hover:bg-slate-700 transition-colors mb-3"
+          className="w-full py-3 rounded-full bg-violet-600 text-white font-semibold hover:bg-violet-700 transition-colors mb-3"
           onClick={() => alert('Stripe integration coming soon. Contact hello@aurrinventures.com to get early access.')}
         >
           Subscribe for Access
         </button>
         <p className="text-xs text-slate-400">
           Already a subscriber?{' '}
-          <a href="/login" className="text-teal-600 hover:text-teal-700">
+          <a href="/login" className="text-violet-600 hover:text-violet-700">
             Sign in
           </a>
         </p>
@@ -172,7 +172,7 @@ export default function ResearchPage() {
   return (
     <div className="max-w-xl mx-auto px-4 py-10">
       <div className="text-center mb-10">
-        <p className="text-sm font-medium uppercase tracking-widest text-teal-600 mb-3">Live Data</p>
+        <p className="text-sm font-medium uppercase tracking-widest text-violet-600 mb-3">Live Data</p>
         <h1 className="text-3xl font-bold text-slate-900">Aurrin Founder Research</h1>
         <p className="text-slate-500 mt-2">
           Real data from Aurrin Ventures pitch events and crowdfunding campaigns.

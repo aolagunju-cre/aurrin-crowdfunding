@@ -29,7 +29,7 @@ export function DonationList({ donations }: DonationListProps) {
           className="flex items-center justify-between py-3 border-b border-gray-100 last:border-0"
         >
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-violet-600 to-teal-500 flex items-center justify-center text-white text-xs font-bold">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-violet-600 to-violet-600 flex items-center justify-center text-white text-xs font-bold">
               {(donation.is_anonymous ? '?' : donation.donor_name?.charAt(0) || '?').toUpperCase()}
             </div>
             <div>
@@ -46,7 +46,7 @@ export function DonationList({ donations }: DonationListProps) {
               )}
             </div>
           </div>
-          <span className="text-sm font-bold text-teal-600">
+          <span className="text-sm font-bold text-violet-600">
             ${(donation.amount_cents / 100).toLocaleString('en-CA')}
           </span>
         </div>

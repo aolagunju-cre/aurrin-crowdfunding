@@ -68,7 +68,7 @@ export function UpdateFeed({ campaignId }: UpdateFeedProps) {
         <h2 className="text-lg font-bold text-slate-900">Campaign Updates</h2>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="text-sm text-teal-600 hover:text-teal-700 font-medium"
+          className="text-sm text-violet-600 hover:text-violet-700 font-medium"
         >
           {showForm ? 'Cancel' : '+ Post update'}
         </button>
@@ -81,7 +81,7 @@ export function UpdateFeed({ campaignId }: UpdateFeedProps) {
             placeholder="Update title (optional)"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-600"
           />
           <textarea
             required
@@ -89,14 +89,14 @@ export function UpdateFeed({ campaignId }: UpdateFeedProps) {
             placeholder="Share a milestone, thank-you note, or progress update..."
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none"
+            className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-600 resize-none"
           />
           <input
             type="text"
             placeholder="Your name"
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
-            className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-600"
           />
           <button
             type="submit"

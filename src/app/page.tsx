@@ -4,25 +4,36 @@ import ValidateForm from './ValidateForm';
 export default async function Home() {
   return (
     <div className="flex flex-col">
-      {/* Hero — URL validator */}
-      <div className="bg-slate-900 text-white py-16 px-4">
-        <div className="max-w-xl mx-auto text-center">
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-teal-400 mb-4">
-            Aurrin Ventures · Calgary
+      {/* Hero — gradient background, bold headline */}
+      <div
+        className="relative overflow-hidden"
+        style="background: linear-gradient(135deg, #b249f8 0%, #FF1CF7 100%);"
+      >
+        {/* Noise texture */}
+        <div
+          className="absolute inset-0"
+          style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 256 256%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%224%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22 opacity=%220.08%22/%3E%3C/svg%3E'); background-repeat: repeat;"
+        />
+
+        <div className="relative max-w-xl mx-auto px-4 py-16 text-center">
+          <p className="text-xs font-medium uppercase tracking-[0.2em] text-white/70 mb-4">
+            Calgary&apos;s Funding Platform
           </p>
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
-            Is your startup<br />fundable?
+          <h1 className="text-4xl md:text-5xl font-black leading-tight text-white mb-4">
+            Is your startup<br />
+            <span style={{ color: '#FFD700' }}>fundable?</span>
           </h1>
-          <p className="text-slate-400 text-lg mb-8 max-w-lg mx-auto">
+          <p className="text-white/80 text-lg mb-8 max-w-lg mx-auto leading-relaxed">
             Drop your URL. Get an instant readout on whether it looks like something investors fund.
           </p>
 
-          {/* Embedded validate form */}
-          <ValidateForm />
+          <div className="max-w-lg mx-auto">
+            <ValidateForm />
+          </div>
 
-          <p className="text-xs text-slate-500 mt-4">
+          <p className="text-xs text-white/50 mt-4">
             Based on signals from {87}+ funded companies.{' '}
-            <Link href="/database" className="text-teal-400 hover:text-teal-300">
+            <Link href="/database" className="text-white/70 hover:text-white font-medium underline">
               See the database →
             </Link>
           </p>
@@ -30,13 +41,13 @@ export default async function Home() {
       </div>
 
       {/* Social proof ticker */}
-      <div className="bg-teal-600 text-white py-3 px-4">
-        <div className="max-w-xl mx-auto flex items-center justify-center gap-6 text-sm font-medium overflow-hidden">
-          <span className="whitespace-nowrap">🔥 3 founders validated their startup today</span>
-          <span className="hidden sm:block text-teal-200">·</span>
-          <span className="hidden sm:block whitespace-nowrap">$0 raised so far this month</span>
-          <span className="hidden sm:block text-teal-200">·</span>
-          <span className="hidden sm:block whitespace-nowrap">Next pitch night: April 29</span>
+      <div className="bg-slate-900 text-white py-3 px-4">
+        <div className="max-w-xl mx-auto flex items-center justify-center gap-6 text-sm font-medium">
+          <span>🔥 3 founders validated their startup this week</span>
+          <span className="hidden sm:block text-white/40">·</span>
+          <span className="hidden sm:block">Next pitch night: April 29</span>
+          <span className="hidden sm:block text-white/40">·</span>
+          <span className="hidden sm:block">Calgary, Alberta</span>
         </div>
       </div>
 
@@ -47,59 +58,43 @@ export default async function Home() {
             Dream it. Pitch it. Build it.
           </h2>
           <p className="text-slate-500 max-w-md mx-auto text-sm leading-relaxed">
-            Aurrin Ventures is Calgary's funding platform for founders who don't have investor connections. No deck required. No VC gatekeeping. Just your idea and the community that backs it.
+            Aurrin Ventures is Calgary&apos;s funding platform for founders who don&apos;t have investor connections. No deck required. No VC gatekeeping. Just your idea and the community that backs it.
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
-            { emoji: '🔍', label: 'Get Validated', desc: 'Enter your URL. See if your startup looks fundable.', href: '/validate' },
+            { emoji: '📅', label: 'Browse Events', desc: 'Judges, contestants, and what&apos;s coming up.', href: '/events' },
             { emoji: '💰', label: 'Raise Funds', desc: 'Launch a campaign. Let your community back you.', href: '/campaigns' },
             { emoji: '🚀', label: 'Pitch Live', desc: 'Apply to pitch at our next event. No connections needed.', href: '/pitch-night' },
           ].map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="bg-white rounded-2xl border border-gray-200 p-5 hover:border-gray-300 hover:shadow-sm transition-all text-center group"
+              className="bg-white rounded-2xl border border-gray-200 p-5 hover:border-violet-300 hover:shadow-md transition-all text-center group"
             >
               <div className="text-3xl mb-3">{item.emoji}</div>
-              <h3 className="font-bold text-slate-900 mb-1 group-hover:text-teal-600 transition-colors">{item.label}</h3>
+              <h3 className="font-bold text-slate-900 mb-1 group-hover:text-violet-600 transition-colors">{item.label}</h3>
               <p className="text-xs text-slate-500 leading-relaxed">{item.desc}</p>
             </Link>
           ))}
         </div>
       </div>
 
-      {/* Recent validated companies */}
-      <div className="max-w-xl mx-auto px-4 pb-14 w-full">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold text-slate-900">Recently validated</h2>
-          <Link href="/database" className="text-sm text-teal-600 hover:text-teal-700 font-medium">
-            See all →
+      {/* CTA Banner */}
+      <div
+        className="py-12 px-4 text-center"
+        style="background: linear-gradient(135deg, #b249f8 0%, #FF1CF7 100%);"
+      >
+        <div className="max-w-xl mx-auto">
+          <h2 className="text-2xl font-bold text-white mb-2">Ready to pitch?</h2>
+          <p className="text-white/80 text-sm mb-6">No deck. No connections. Just your idea and the room.</p>
+          <Link
+            href="/pitch-night"
+            className="inline-block px-6 py-2.5 rounded-full bg-white text-violet-700 font-semibold text-sm hover:bg-violet-50 transition-colors"
+          >
+            Apply to Pitch →
           </Link>
-        </div>
-        <div className="space-y-2">
-          {[
-            { domain: 'levyne.com', score: 75, result: 'Looks fundable' },
-            { domain: 'saturves.com', score: 63, result: 'Promising' },
-            { domain: 'synthgrid.com', score: 50, result: 'Promising' },
-          ].map((v) => (
-            <div key={v.domain} className="bg-white rounded-xl border border-gray-200 px-4 py-3 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <span className="text-sm font-medium text-slate-900">{v.domain}</span>
-                <span className="text-xs text-slate-400">{v.result}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="h-1.5 w-16 bg-gray-100 rounded-full overflow-hidden">
-                  <div
-                    className={`h-full rounded-full ${v.score >= 75 ? 'bg-emerald-500' : v.score >= 50 ? 'bg-teal-500' : 'bg-amber-500'}`}
-                    style={{ width: `${v.score}%` }}
-                  />
-                </div>
-                <span className="text-xs font-bold text-slate-700 w-8">{v.score}%</span>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
     </div>

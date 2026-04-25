@@ -31,7 +31,7 @@ export default function CampaignsPage() {
   return (
     <div className="max-w-xl mx-auto px-4 py-8">
       <div className="text-center mb-10">
-        <p className="text-sm font-medium uppercase tracking-widest text-teal-600 mb-3">Community-Powered</p>
+        <p className="text-sm font-medium uppercase tracking-widest text-violet-600 mb-3">Community-Powered</p>
         <h1 className="text-3xl font-bold text-slate-900">Founders building.<br />Community backing.</h1>
       </div>
 
@@ -44,7 +44,7 @@ export default function CampaignsPage() {
           <p className="text-slate-500">Be the first to launch a campaign.</p>
           <Link
             href="/create"
-            className="inline-block px-8 py-3 rounded-full bg-slate-900 text-white font-semibold hover:bg-slate-700 transition-colors"
+            className="inline-block px-8 py-3 rounded-full bg-violet-600 text-white font-semibold hover:bg-violet-700 transition-colors"
           >
             Start a Campaign
           </Link>
@@ -63,17 +63,17 @@ export default function CampaignsPage() {
                 href={`/campaigns/${c.id}`}
                 className="block rounded-2xl border border-gray-200 bg-white overflow-hidden hover:border-gray-300 transition-all"
               >
-                <div className="h-1 bg-gradient-to-r from-violet-600 to-teal-500" />
+                <div className="h-1 bg-gradient-to-r from-violet-600 to-violet-600" />
                 <div className="p-5 space-y-3">
                   {c.category && (
-                    <p className="text-xs text-teal-600 uppercase tracking-widest font-semibold">{c.category}</p>
+                    <p className="text-xs text-violet-600 uppercase tracking-widest font-semibold">{c.category}</p>
                   )}
                   <h3 className="text-lg font-bold text-slate-900">{c.title}</h3>
 
                   <div>
                     <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
                       <div
-                        className="h-full rounded-full bg-gradient-to-r from-violet-600 to-teal-500"
+                        className="h-full rounded-full bg-gradient-to-r from-violet-600 to-violet-600"
                         style={{ width: `${Math.min(pct, 100)}%` }}
                       />
                     </div>
@@ -85,7 +85,7 @@ export default function CampaignsPage() {
                   {lowestTier && (
                     <div className="pt-2 border-t border-gray-100 flex justify-between items-center">
                       <span className="text-xs text-gray-500">From</span>
-                      <span className="text-sm font-bold text-teal-600">
+                      <span className="text-sm font-bold text-violet-600">
                         ${(lowestTier.amount_cents / 100).toLocaleString('en-CA', { minimumFractionDigits: 0 })}
                       </span>
                     </div>

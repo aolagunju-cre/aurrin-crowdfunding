@@ -131,7 +131,7 @@ export default function DatabasePage() {
   return (
     <div className="max-w-xl mx-auto px-4 py-10">
       <div className="text-center mb-10">
-        <p className="text-sm font-medium uppercase tracking-widest text-teal-600 mb-3">The Index</p>
+        <p className="text-sm font-medium uppercase tracking-widest text-violet-600 mb-3">The Index</p>
         <h1 className="text-3xl font-bold text-slate-900 mb-3">Funded Companies</h1>
         <p className="text-slate-500 max-w-md mx-auto">
           Every company from Aurrin pitch events, Dragon&apos;s Den, and Calgary competitions that has raised money. Study what works.
@@ -163,7 +163,7 @@ export default function DatabasePage() {
           placeholder="Search companies..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full px-4 py-3 rounded-xl border border-gray-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
+          className="w-full px-4 py-3 rounded-xl border border-gray-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-600 text-sm"
         />
         <div className="flex gap-2 flex-wrap">
           {CATEGORIES.map((cat) => (
@@ -187,7 +187,7 @@ export default function DatabasePage() {
               onClick={() => setSource(s)}
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
                 source === s
-                  ? 'bg-teal-600 text-white'
+                  ? 'bg-violet-600 text-white'
                   : 'bg-white border border-gray-200 text-slate-600 hover:border-slate-300'
               }`}
             >
@@ -203,7 +203,7 @@ export default function DatabasePage() {
           <p className="text-sm">No companies match your filters.</p>
           <button
             onClick={() => { setCategory('All'); setSource('All'); setSearch(''); }}
-            className="text-xs text-teal-600 hover:text-teal-700 mt-2 underline"
+            className="text-xs text-violet-600 hover:text-violet-700 mt-2 underline"
           >
             Clear filters
           </button>
@@ -219,7 +219,7 @@ export default function DatabasePage() {
                     href={`https://${company.domain}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs text-teal-600 hover:text-teal-700"
+                    className="text-xs text-violet-600 hover:text-violet-700"
                   >
                     {company.domain} →
                   </a>

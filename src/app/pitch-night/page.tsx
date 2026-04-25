@@ -80,7 +80,7 @@ export default function PitchNightPage() {
   return (
     <div className="max-w-xl mx-auto px-4 py-10">
       <div className="text-center mb-10">
-        <p className="text-sm font-medium uppercase tracking-widest text-teal-600 mb-3">Founder Submission</p>
+        <p className="text-sm font-medium uppercase tracking-widest text-violet-600 mb-3">Founder Submission</p>
         <h1 className="text-3xl font-bold text-slate-900">Pitch Night</h1>
         <p className="text-slate-500 mt-2">Fill this out to get your LinkedIn post drafted.</p>
       </div>
@@ -97,7 +97,7 @@ export default function PitchNightPage() {
             value={form.founderName}
             onChange={(e) => update('founderName', e.target.value)}
             placeholder="e.g. Joshua Strub"
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+            className="w-full px-4 py-3 rounded-xl border border-gray-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent"
           />
         </div>
 
@@ -112,7 +112,7 @@ export default function PitchNightPage() {
             value={form.companyName}
             onChange={(e) => update('companyName', e.target.value)}
             placeholder="e.g. SynthGrid"
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+            className="w-full px-4 py-3 rounded-xl border border-gray-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent"
           />
         </div>
 
@@ -127,7 +127,7 @@ export default function PitchNightPage() {
             value={form.oneLiner}
             onChange={(e) => update('oneLiner', e.target.value)}
             placeholder="e.g. An independent performance certification for battery energy storage systems. By ingesting real operating data and applying physics-based validation, they produce reports that lenders, insurers, and regulators can trust."
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent resize-none"
+            className="w-full px-4 py-3 rounded-xl border border-gray-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent resize-none"
           />
           <p className="text-xs text-slate-400 mt-1">Copy from their pitch or description. I'll make it punchy.</p>
         </div>
@@ -142,7 +142,7 @@ export default function PitchNightPage() {
             value={form.linkedinUrl}
             onChange={(e) => update('linkedinUrl', e.target.value)}
             placeholder="https://www.linkedin.com/in/joshuastrub"
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+            className="w-full px-4 py-3 rounded-xl border border-gray-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent"
           />
         </div>
 
@@ -156,7 +156,7 @@ export default function PitchNightPage() {
             value={form.companyLinkedinUrl}
             onChange={(e) => update('companyLinkedinUrl', e.target.value)}
             placeholder="https://www.linkedin.com/company/synthgrid"
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+            className="w-full px-4 py-3 rounded-xl border border-gray-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent"
           />
         </div>
 
@@ -170,7 +170,7 @@ export default function PitchNightPage() {
             required
             value={form.eventContext}
             onChange={(e) => update('eventContext', e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+            className="w-full px-4 py-3 rounded-xl border border-gray-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent"
           />
           <p className="text-xs text-slate-400 mt-1">e.g. "is pitching at Aurrin Ventures Energy Pitch Night."</p>
         </div>
@@ -184,7 +184,7 @@ export default function PitchNightPage() {
             type="text"
             value={form.eventDate}
             onChange={(e) => update('eventDate', e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+            className="w-full px-4 py-3 rounded-xl border border-gray-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent"
           />
         </div>
 
@@ -195,7 +195,7 @@ export default function PitchNightPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3.5 rounded-full bg-slate-900 text-white font-semibold hover:bg-slate-700 transition-colors disabled:opacity-50"
+          className="w-full py-3.5 rounded-full bg-violet-600 text-white font-semibold hover:bg-violet-700 transition-colors disabled:opacity-50"
         >
           {loading ? 'Submitting...' : 'Submit Founder'}
         </button>

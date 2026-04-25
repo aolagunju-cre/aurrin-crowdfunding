@@ -59,7 +59,7 @@ function ConfirmContent() {
         <div className="text-5xl mb-4">❌</div>
         <h1 className="text-2xl font-bold text-slate-900 mb-2">Something went wrong.</h1>
         <p className="text-slate-500 mb-6">Check your email for a receipt, or try again.</p>
-        <Link href="/campaigns" className="text-teal-600 hover:text-teal-700 font-medium text-sm">
+        <Link href="/campaigns" className="text-violet-600 hover:text-violet-700 font-medium text-sm">
           ← Browse Campaigns
         </Link>
       </div>
@@ -78,7 +78,7 @@ function ConfirmContent() {
       <h1 className="text-3xl font-bold text-slate-900 mb-3">You're in.</h1>
       <p className="text-lg text-slate-500 mb-2">
         Your pledge of{' '}
-        <span className="font-bold text-teal-600">{amountFormatted}</span> is confirmed.
+        <span className="font-bold text-violet-600">{amountFormatted}</span> is confirmed.
       </p>
       <p className="text-slate-500 mb-10">
         The founder is notified. A receipt is on its way to your email.
@@ -107,7 +107,7 @@ function ConfirmContent() {
         </div>
       </div>
 
-      <Link href="/campaigns" className="text-teal-600 hover:text-teal-700 font-medium text-sm">
+      <Link href="/campaigns" className="text-violet-600 hover:text-violet-700 font-medium text-sm">
         ← Back to campaigns
       </Link>
     </div>

@@ -1,51 +1,47 @@
 @import "tailwindcss";
 
-:root {
-  --font-montserrat: 'Montserrat', sans-serif;
-  --font-inter: 'Inter', sans-serif;
-}
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --primary: 270 80% 60%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 330 100% 60%;
+    --accent-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 270 80% 60%;
+    --radius: 0.75rem;
+  }
 
-@theme {
-  --color-navy: #0D1B2E;
-  --color-navy-dark: #060B2E;
-  --color-violet: #4831B0;
-  --color-teal: #2EE5F2;
-  --color-gold: #C4A000;
-  --color-off-white: #F1F3F2;
-  --font-family-sans: 'Inter', sans-serif;
-  --font-family-montserrat: 'Montserrat', sans-serif;
-}
+  * {
+    border-color: hsl(var(--border));
+  }
 
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  background-color: #F7F7F7;
-  color: #1e293b;
-  font-family: var(--font-family-sans);
-}
-
-.font-montserrat {
-  font-family: var(--font-family-montserrat);
-}
-
-/* Noise grain overlay */
-.grain-overlay::before {
-  content: '';
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
+  body {
+    background-color: #F7F8FA;
+    color: hsl(var(--foreground));
+    font-family: system-ui, -apple-system, sans-serif;
+  }
 }
 
 /* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, #4831B0, #2EE5F2);
+  background: linear-gradient(135deg, #FF1CF7, #b249f8);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* Violet gradient for buttons and bars */
+.violet-gradient {
+  background: linear-gradient(135deg, #b249f8, #FF1CF7);
 }
 
 /* Campaign card hover */
@@ -54,11 +50,11 @@ body {
 }
 .campaign-card:hover {
   transform: translateY(-2px);
-  border-color: rgba(72, 49, 176, 0.5);
+  border-color: rgba(139, 73, 248, 0.5);
 }
 
-/* Progress bar */
+/* Progress bar violet gradient */
 .progress-fill {
-  background: linear-gradient(90deg, #4831B0, #2EE5F2);
+  background: linear-gradient(90deg, #b249f8, #FF1CF7);
   transition: width 0.5s ease;
 }

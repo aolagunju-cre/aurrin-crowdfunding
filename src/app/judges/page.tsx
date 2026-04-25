@@ -33,7 +33,7 @@ const APRIL_29_JUDGES: Judge[] = [
     bio: 'President of USXI Group, active judge and mentor for early-stage founders in the Calgary ecosystem.',
     linkedin: 'https://www.linkedin.com/in/siva-sam-refreshed/',
     initials: 'SS',
-    color: 'bg-teal-600',
+    color: 'bg-violet-600',
   },
   {
     name: 'Jana McDonald',
@@ -62,7 +62,7 @@ function JudgeCard({ judge }: { judge: Judge }) {
               href={judge.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 mt-3 text-xs text-teal-600 hover:text-teal-700 font-medium"
+              className="inline-flex items-center gap-1 mt-3 text-xs text-violet-600 hover:text-violet-700 font-medium"
             >
               LinkedIn →
             </a>
@@ -77,7 +77,7 @@ export default function JudgesPage() {
   return (
     <div className="max-w-xl mx-auto px-4 py-10">
       <div className="text-center mb-10">
-        <p className="text-sm font-medium uppercase tracking-widest text-teal-600 mb-3">Energy Pitch Night</p>
+        <p className="text-sm font-medium uppercase tracking-widest text-violet-600 mb-3">Energy Pitch Night</p>
         <h1 className="text-3xl font-bold text-slate-900">Meet the Judges</h1>
         <p className="text-slate-500 mt-2 max-w-md mx-auto">
           Three leaders evaluating the next wave of energy innovation in Calgary.
@@ -102,7 +102,7 @@ export default function JudgesPage() {
       <div className="mt-10 text-center">
         <p className="text-sm text-slate-500">
           Interested in judging at a future event?{' '}
-          <a href="mailto:hello@aurrinventures.com" className="text-teal-600 hover:text-teal-700 font-medium">
+          <a href="mailto:hello@aurrinventures.com" className="text-violet-600 hover:text-violet-700 font-medium">
             Get in touch
           </a>
         </p>

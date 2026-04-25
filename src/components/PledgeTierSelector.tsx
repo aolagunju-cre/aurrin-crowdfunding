@@ -89,7 +89,7 @@ export function PledgeTierSelector({
             <div className="flex-1">
               <div className="flex justify-between items-center">
                 <span className="font-semibold text-slate-900">{tier.name}</span>
-                <span className="font-bold text-teal-600">
+                <span className="font-bold text-violet-600">
                   ${(tier.amount_cents / 100).toLocaleString('en-CA')}
                 </span>
               </div>
@@ -116,7 +116,7 @@ export function PledgeTierSelector({
             setCustomAmount(e.target.value);
             setSelectedTier(null);
           }}
-          className="flex-1 px-3 py-2 rounded-lg border border-gray-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500"
+          className="flex-1 px-3 py-2 rounded-lg border border-gray-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-600"
         />
       </div>
 
@@ -124,7 +124,7 @@ export function PledgeTierSelector({
       <button
         onClick={handlePledge}
         disabled={loading}
-        className="w-full py-3 rounded-full bg-slate-900 text-white font-semibold hover:bg-slate-700 transition-colors disabled:opacity-50"
+        className="w-full py-3 rounded-full bg-violet-600 text-white font-semibold hover:bg-violet-700 transition-colors disabled:opacity-50"
       >
         {loading ? 'Redirecting...' : `Back for $${selectedTier ? (selectedTier.amount_cents / 100).toLocaleString('en-CA') : customAmount || '—'}`}
       </button>

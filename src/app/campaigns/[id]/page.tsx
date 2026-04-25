@@ -31,7 +31,7 @@ export default async function CampaignDetailPage({ params }: PageProps) {
       {/* Hero */}
       <div className="mb-10">
         {campaign.category && (
-          <p className="text-xs font-semibold uppercase tracking-widest text-teal-600 mb-3">
+          <p className="text-xs font-semibold uppercase tracking-widest text-violet-600 mb-3">
             {campaign.category}
           </p>
         )}

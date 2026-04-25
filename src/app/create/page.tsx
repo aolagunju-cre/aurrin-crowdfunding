@@ -91,15 +91,15 @@ export default function CreatePage() {
                 <button
                   onClick={() => i < step && setStep(i)}
                   className={`flex items-center text-sm font-medium ${
-                    i === step ? 'text-slate-900' : i < step ? 'text-teal-600 cursor-pointer' : 'text-gray-300'
+                    i === step ? 'text-slate-900' : i < step ? 'text-violet-600 cursor-pointer' : 'text-gray-300'
                   }`}
                 >
                   <div
                     className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 ${
                       i === step
-                        ? 'border-teal-500 bg-teal-50 text-teal-600'
+                        ? 'border-violet-600 bg-violet-50 text-violet-600'
                         : i < step
-                        ? 'border-teal-500 bg-teal-500 text-white'
+                        ? 'border-violet-600 bg-violet-600 text-white'
                         : 'border-gray-200 text-gray-300'
                     }`}
                   >
@@ -108,7 +108,7 @@ export default function CreatePage() {
                   <span className="ml-2 hidden sm:inline text-sm">{s.label}</span>
                 </button>
                 {i < STEPS.length - 1 && (
-                  <div className={`flex-1 h-px mx-3 ${i < step ? 'bg-teal-500' : 'bg-gray-200'}`} />
+                  <div className={`flex-1 h-px mx-3 ${i < step ? 'bg-violet-600' : 'bg-gray-200'}`} />
                 )}
               </div>
             ))}
@@ -137,7 +137,7 @@ export default function CreatePage() {
                       onClick={() => setCampaignType(t.id)}
                       className={`flex items-center gap-4 p-4 rounded-xl border-2 text-left transition-all ${
                         campaignType === t.id
-                          ? 'border-teal-500 bg-teal-50'
+                          ? 'border-violet-600 bg-violet-50'
                           : 'border-gray-200 bg-white hover:border-gray-300'
                       }`}
                     >
@@ -147,7 +147,7 @@ export default function CreatePage() {
                         <p className="text-xs text-slate-500">{t.description}</p>
                       </div>
                       {campaignType === t.id && (
-                        <div className="ml-auto w-5 h-5 rounded-full bg-teal-500 flex items-center justify-center">
+                        <div className="ml-auto w-5 h-5 rounded-full bg-violet-600 flex items-center justify-center">
                           <span className="text-white text-xs">✓</span>
                         </div>
                       )}
@@ -178,7 +178,7 @@ export default function CreatePage() {
                         onClick={() => setAmount(a.value)}
                         className={`py-3 px-2 rounded-xl border-2 text-center transition-all ${
                           amount === a.value
-                            ? 'border-teal-500 bg-teal-50'
+                            ? 'border-violet-600 bg-violet-50'
                             : 'border-gray-200 bg-white hover:border-gray-300'
                         }`}
                       >
@@ -198,7 +198,7 @@ export default function CreatePage() {
                         onClick={() => setDuration(d.value)}
                         className={`py-3 rounded-xl border-2 text-center transition-all ${
                           duration === d.value
-                            ? 'border-teal-500 bg-teal-50'
+                            ? 'border-violet-600 bg-violet-50'
                             : 'border-gray-200 bg-white hover:border-gray-300'
                         }`}
                       >
@@ -232,7 +232,7 @@ export default function CreatePage() {
 
                 {/* Preview card */}
                 <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden">
-                  <div className="h-1.5 bg-gradient-to-r from-violet-600 to-teal-500" />
+                  <div className="h-1.5 bg-gradient-to-r from-violet-600 to-violet-600" />
                   <div className="p-6 space-y-4">
                     {(() => {
                       const type = CAMPAIGN_TYPES.find((t) => t.id === campaignType);
@@ -240,7 +240,7 @@ export default function CreatePage() {
                         <>
                           <div className="flex items-center gap-2">
                             <span className="text-lg">{type?.emoji}</span>
-                            <p className="text-xs text-teal-600 uppercase tracking-widest font-semibold">
+                            <p className="text-xs text-violet-600 uppercase tracking-widest font-semibold">
                               {type?.label}
                             </p>
                           </div>
@@ -252,7 +252,7 @@ export default function CreatePage() {
                           </p>
                           <div>
                             <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
-                              <div className="h-full rounded-full bg-gradient-to-r from-violet-600 to-teal-500 w-0" />
+                              <div className="h-full rounded-full bg-gradient-to-r from-violet-600 to-violet-600 w-0" />
                             </div>
                             <p className="text-xs text-gray-400 mt-1">
                               $0 raised · 0% · {duration} days remaining
@@ -267,7 +267,7 @@ export default function CreatePage() {
                             ].map((tier) => (
                               <div key={tier.name} className="flex justify-between text-sm">
                                 <span className="text-slate-600">{tier.name}</span>
-                                <span className="font-bold text-teal-600">
+                                <span className="font-bold text-violet-600">
                                   ${new Intl.NumberFormat('en-CA', { minimumFractionDigits: 0 }).format(tier.amount / 100)}
                                 </span>
                               </div>
@@ -296,7 +296,7 @@ export default function CreatePage() {
                   <button
                     onClick={handlePublish}
                     disabled={loading}
-                    className="flex-1 bg-gradient-to-r from-violet-600 to-teal-500 text-white font-bold text-base rounded-full py-4 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                    className="flex-1 bg-gradient-to-r from-violet-600 to-violet-600 text-white font-bold text-base rounded-full py-4 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                   >
                     {loading ? 'Publishing...' : '🎉 Publish Campaign'}
                   </button>

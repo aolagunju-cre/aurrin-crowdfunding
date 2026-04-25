@@ -1,61 +1,22 @@
 'use client';
+'use client';
 
-import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 import Link from 'next/link';
 
-interface Signal {
-  id: string;
-  label: string;
-  value: boolean;
-}
-
 interface ValidationResult {
-  domain: string;
-  title: string;
-  description: string;
   score: number;
   maxScore: number;
   pct: number;
   tier: string;
-  signals: Signal[];
-  missingSignals: string[];
-  strongSignals: string[];
-  url: string;
+  domain: string;
 }
 
 export default function ValidatePage() {
   const [url, setUrl] = useState('');
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<ValidationResult | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [preloaded, setPreloaded] = useState(false);
-
-  // Check for results passed via URL params (from homepage)
-  useEffect(() => {
-    const sp = new URLSearchParams(window.location.search);
-    const score = sp.get('score');
-    const max = sp.get('max');
-    const pct = sp.get('pct');
-    const tier = sp.get('tier');
-    const domain = sp.get('domain');
-    if (score && max && pct && tier && domain) {
-      setResult({
-        score: parseInt(score),
-        maxScore: parseInt(max),
-        pct: parseInt(pct),
-        tier: decodeURIComponent(tier),
-        domain: decodeURIComponent(domain),
-        title: '',
-        description: '',
-        signals: [],
-        missingSignals: [],
-        strongSignals: [],
-        url: '',
-      });
-      setPreloaded(true);
-    }
-  }, []);
+  const [result, setResult] = useState<ValidationResult | null>(null);
 
   async function handleValidate(e: React.FormEvent) {
     e.preventDefault();
@@ -63,7 +24,6 @@ export default function ValidatePage() {
     setLoading(true);
     setError(null);
     setResult(null);
-
     try {
       const res = await fetch('/api/validate', {
         method: 'POST',
@@ -71,30 +31,39 @@ export default function ValidatePage() {
         body: JSON.stringify({ url: url.trim() }),
       });
       const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || 'Something went wrong');
-        return;
-      }
+      if (!res.ok) { setError(data.error || 'Something went wrong'); return; }
       setResult(data);
-    } catch {
-      setError('Failed to validate. Check the URL and try again.');
-    } finally {
-      setLoading(false);
-    }
+    } catch { setError('Failed to validate. Check the URL and try again.'); }
+    finally { setLoading(false); }
   }
+
+  const COMPANIES = [
+    { name: 'Levyne', domain: 'levyne.com', desc: 'Real team. Clear pricing. B2B SaaS.', score: 75 },
+    { name: 'SynthGrid', domain: 'synthgrid.com', desc: 'Certification standard. Energy vertical.', score: 50 },
+    { name: 'Serenity Power', domain: 'serenitypower.ca', desc: 'Specific efficiency claim. Industrial buyer.', score: 50 },
+    { name: 'Inspekto AI', domain: 'inspektoai.com', desc: 'AI inspection reports. API standards.', score: 38 },
+    { name: 'Link NRG', domain: 'linknrg.com', desc: 'Clean fuel supply chain platform.', score: 38 },
+    { name: 'WACORP', domain: 'wacorp.com', desc: 'Wireline abandonment tool. 600% faster.', score: 25 },
+    { name: 'Ranch Ehrlo', domain: 'ranchehrlo.ca', desc: 'Social services. Long operating history.', score: 20 },
+    { name: 'Saturves', domain: 'saturves.com', desc: 'Plant-based beverages. Consumer brand.', score: 13 },
+  ];
+
+  const shown = result ? COMPANIES.slice(0, 3) : COMPANIES.slice(0, 3);
+  const hidden = result ? COMPANIES.slice(3) : [];
 
   return (
     <div className="max-w-xl mx-auto px-4 py-10">
-      <div className="text-center mb-10">
-        <p className="text-sm font-medium uppercase tracking-widest text-teal-600 mb-3">Aurrin Ventures</p>
-        <h1 className="text-3xl font-bold text-slate-900 mb-3">Get Validated</h1>
-        <p className="text-slate-500 max-w-md mx-auto">
-          Enter your startup URL. Get an instant readout on whether it looks fundable — based on signals from hundreds of pitches and investor reviews.
+      {/* Header */}
+      <div className="text-center mb-8">
+        <p className="text-xs font-medium uppercase tracking-widest text-violet-600 mb-3">Aurrin Ventures</p>
+        <h1 className="text-3xl font-bold text-slate-900 mb-2">Is your startup fundable?</h1>
+        <p className="text-slate-500 text-sm max-w-sm mx-auto">
+          Enter your URL. See how your startup compares to companies that have raised money.
         </p>
       </div>
 
-      {/* Form */}
-      <form onSubmit={handleValidate} className="mb-10">
+      {/* Step 1: Input */}
+      <form onSubmit={handleValidate} className="mb-8">
         <div className="flex gap-2">
           <input
             type="url"
@@ -102,154 +71,118 @@ export default function ValidatePage() {
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             placeholder="https://yourstartup.com"
-            className="flex-1 px-4 py-3.5 rounded-xl border border-gray-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent text-sm"
+            className="flex-1 px-4 py-3.5 rounded-xl border border-gray-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-600 text-sm"
           />
           <button
             type="submit"
             disabled={loading}
-            className="px-6 py-3.5 rounded-xl bg-slate-900 text-white font-semibold hover:bg-slate-700 transition-colors disabled:opacity-50 text-sm whitespace-nowrap"
+            className="px-6 py-3.5 rounded-xl bg-violet-600 text-white font-semibold hover:bg-violet-700 transition-colors disabled:opacity-50 text-sm whitespace-nowrap"
           >
-            {loading ? 'Checking...' : 'Validate →'}
+            {loading ? 'Checking...' : 'Check →'}
           </button>
         </div>
-        {error && (
-          <p className="text-red-500 text-sm mt-2">{error}</p>
-        )}
+        {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
       </form>
 
-      {/* Result */}
-      {result && (
-        <div className="space-y-6 animate-in fade-in duration-300">
-          {/* Score card */}
-          <div className="bg-white rounded-2xl border border-gray-200 p-6 text-center">
-            <div className="text-sm text-slate-500 mb-2">{result.domain}</div>
-            <div className="text-6xl font-extrabold text-slate-900 mb-1">{result.score}/{result.maxScore}</div>
-            <div className="text-sm text-slate-400 mb-4">signals detected</div>
+      {/* The funnel */}
+      <div className="space-y-3">
 
-            {/* Score bar */}
-            <div className="h-3 bg-gray-100 rounded-full overflow-hidden mb-4">
+        {/* ✅ Micro-close 1: Score */}
+        {result && (
+          <div className="bg-white rounded-2xl border border-gray-200 p-6 text-center">
+            <p className="text-sm text-slate-400 mb-1">{result.domain}</p>
+            <div className="text-5xl font-extrabold text-slate-900 mb-2">{result.score}/{result.maxScore}</div>
+            <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden mb-3 mx-auto max-w-xs">
               <div
-                className={`h-full rounded-full transition-all ${
+                className={`h-full rounded-full ${
                   result.pct >= 75 ? 'bg-emerald-500' :
-                  result.pct >= 50 ? 'bg-teal-500' :
+                  result.pct >= 50 ? 'bg-violet-600' :
                   result.pct >= 25 ? 'bg-amber-500' : 'bg-rose-500'
                 }`}
                 style={{ width: `${result.pct}%` }}
               />
             </div>
-
             <p className="text-base font-semibold text-slate-900">{result.tier}</p>
-
-            {result.title && (
-              <p className="text-sm text-slate-500 mt-2">{result.title}</p>
-            )}
           </div>
+        )}
 
-          {/* Signals breakdown */}
-          <div className="bg-white rounded-2xl border border-gray-200 p-6">
-            <h3 className="font-bold text-slate-900 mb-4">What we found</h3>
-
-            {result.strongSignals.length > 0 && (
-              <div className="mb-4">
-                <p className="text-xs font-semibold text-emerald-600 uppercase tracking-wider mb-2">✓ Strong signals</p>
-                <div className="space-y-1">
-                  {result.strongSignals.map((s) => (
-                    <div key={s} className="flex items-center gap-2 text-sm text-slate-700">
-                      <span className="text-emerald-500">✓</span> {s}
-                    </div>
-                  ))}
+        {/* ✅ Micro-close 2: See what fundable looked like — 3 shown, rest greyed */}
+        <div className="bg-white rounded-2xl border border-gray-200 p-5">
+          <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
+            {result ? 'What funded companies looked like' : 'What fundable companies look like'}
+          </p>
+          <div className="space-y-2">
+            {shown.map((c) => (
+              <div key={c.name} className="flex items-center gap-3 text-sm">
+                <div className="flex-1">
+                  <span className="font-semibold text-slate-900">{c.name}</span>
+                  <span className="text-slate-400 text-xs ml-2">{c.domain}</span>
+                </div>
+                <div className="text-right">
+                  <span className="text-xs font-medium text-slate-500">{c.score}/8</span>
+                  <div className="w-12 h-1 bg-gray-100 rounded-full overflow-hidden mt-1 ml-auto">
+                    <div className="h-full bg-violet-500 rounded-full" style={{ width: `${(c.score / 8) * 100}%` }} />
+                  </div>
                 </div>
               </div>
-            )}
-
-            {result.missingSignals.length > 0 && (
-              <div>
-                <p className="text-xs font-semibold text-rose-600 uppercase tracking-wider mb-2">✗ Missing signals</p>
-                <div className="space-y-1">
-                  {result.missingSignals.map((s) => (
-                    <div key={s} className="flex items-center gap-2 text-sm text-slate-700">
-                      <span className="text-rose-400">—</span> {s}
-                    </div>
-                  ))}
+            ))}
+            {/* Greyed out preview of hidden companies */}
+            {hidden.map((c) => (
+              <div key={c.name} className="flex items-center gap-3 text-sm opacity-30">
+                <div className="flex-1">
+                  <span className="font-semibold text-slate-900">{c.name}</span>
+                  <span className="text-slate-400 text-xs ml-2">{c.domain}</span>
+                </div>
+                <div className="text-right">
+                  <span className="text-xs font-medium text-slate-400">{c.score}/8</span>
+                  <div className="w-12 h-1 bg-gray-100 rounded-full overflow-hidden mt-1 ml-auto">
+                    <div className="h-full bg-gray-300 rounded-full" style={{ width: `${(c.score / 8) * 100}%` }} />
+                  </div>
                 </div>
               </div>
-            )}
+            ))}
           </div>
+          <p className="text-xs text-slate-400 mt-3">{COMPANIES.length - 3} more funded companies in the full database</p>
+        </div>
 
-          {/* CTA */}
-          <div className="bg-slate-900 rounded-2xl p-6 text-center">
-            <p className="text-white font-semibold mb-1">Want real feedback from investors?</p>
-            <p className="text-slate-400 text-sm mb-4">
-              Submit your startup to the Aurrin community — founders and investors who've seen what gets funded.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-2 justify-center">
-              <Link
-                href="/pitch-night"
-                className="px-5 py-2.5 rounded-full bg-white text-slate-900 font-semibold text-sm hover:bg-slate-100 transition-colors"
-              >
-                Submit for feedback →
-              </Link>
-              <Link
-                href="/database"
-                className="px-5 py-2.5 rounded-full border border-slate-600 text-slate-300 font-semibold text-sm hover:bg-slate-800 transition-colors"
-              >
-                See funded companies →
-              </Link>
-            </div>
+        {/* ✅ Micro-close 3: Access — subscribe or start a campaign */}
+        <div className="bg-gradient-to-br from-violet-600 to-fuchsia-600 rounded-2xl p-6 text-white text-center">
+          <p className="font-bold text-lg mb-1">See all {COMPANIES.length}+ funded companies</p>
+          <p className="text-white/75 text-sm mb-5">
+            Get full access to the database — plus a campaign that puts your startup in front of 3 real funders.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link
+              href="/create"
+              className="flex-1 px-5 py-3 rounded-xl bg-white text-violet-700 font-semibold text-sm hover:bg-violet-50 transition-colors"
+            >
+              Start a campaign (free) →
+            </Link>
+            <button
+              className="flex-1 px-5 py-3 rounded-xl border border-white/40 text-white font-semibold text-sm hover:bg-white/10 transition-colors"
+              onClick={() => alert('Subscription coming soon. Email hello@aurrinventures.com for early access.')}
+            >
+              Pay $20/month
+            </button>
           </div>
+        </div>
 
-          {/* Share */}
+        {/* ✅ Micro-close 4: Share */}
+        {result && (
           <div className="text-center">
             <button
               onClick={() => {
-                const text = `My startup just validated on @AurrinVentures — ${result.pct}% fundable signal score. ${result.tier} ${url}`;
+                const text = `My startup scored ${result.score}/${result.maxScore} on @AurrinVentures. ${result.tier} — is yours fundable?`;
                 window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
               }}
-              className="text-sm text-slate-500 hover:text-slate-700 underline"
+              className="text-sm text-slate-400 hover:text-slate-600 underline"
             >
               Share your result on X →
             </button>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Placeholder state */}
-      {!result && !loading && !error && (
-        <div className="space-y-6">
-          <div className="text-center py-10 text-slate-400">
-            <div className="text-4xl mb-3">🔍</div>
-            <p className="text-sm">Enter your startup URL above to get your validation score</p>
-          </div>
-
-          {/* How it works */}
-          <div className="bg-white rounded-2xl border border-gray-200 p-6">
-            <h3 className="font-bold text-slate-900 mb-4">What we're checking</h3>
-            <div className="space-y-2 text-sm text-slate-600">
-              {[
-                'Is there a pricing page or clear value proposition?',
-                'Does the site signal a real team?',
-                'Is there a waiting list or early access signal?',
-                'Is the copy specific — or does it sound like AI generated?',
-                'Are they actively hiring, blogging, building in public?',
-              ].map((q, i) => (
-                <div key={i} className="flex items-start gap-2">
-                  <span className="text-teal-500 font-bold">{i + 1}.</span>
-                  {q}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="text-center">
-            <p className="text-xs text-slate-400">
-              Based on signals from {87}+ funded companies and investor reviews.{' '}
-              <Link href="/database" className="text-teal-600 hover:text-teal-700">
-                See the database →
-              </Link>
-            </p>
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 }
